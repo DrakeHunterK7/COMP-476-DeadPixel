@@ -24,12 +24,12 @@ public class Spaceship : MonoBehaviour
     {
         CameraFollow();
         var forwardInput = -Input.GetAxis("Vertical");
-        var horizontalInput = Mathf.Clamp(Input.mousePosition.x/Screen.width, -1, 1);
-        var verticalInput = Mathf.Clamp(-Input.mousePosition.y/Screen.height, -1, 1);
+        var horizontalInput = Mathf.Clamp(Input.mousePosition.x-(Screen.width/2), -1, 1);
+        var verticalInput = Mathf.Clamp(-Input.mousePosition.y-(Screen.height/2), -1, 1);
 
         transform.position += forwardInput * shipModel.transform.right * shipSpeed * Time.deltaTime;
-        transform.RotateAround(shipModel.transform.position, Vector3.up, horizontalInput*shipTurnSpeed*Time.deltaTime);
-        transform.RotateAround(shipModel.transform.position, Vector3.right, verticalInput*shipTurnSpeed*Time.deltaTime);
+        transform.RotateAround(shipModel.transform.position, shipModel.transform.up, horizontalInput*shipTurnSpeed*Time.deltaTime);
+        transform.RotateAround(shipModel.transform.position, shipModel.transform.forward, verticalInput*shipTurnSpeed*Time.deltaTime);
 
     }
 
