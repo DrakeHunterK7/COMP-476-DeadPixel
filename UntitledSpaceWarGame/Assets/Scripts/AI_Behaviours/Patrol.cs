@@ -52,7 +52,7 @@ public class Patrol : Node
             }
             else
             {
-                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, ShipBT.speed * Time.deltaTime);
+                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, ShipAIBT.speed * Time.deltaTime);
                 _transform.LookAt(wp.position);
             }
         }

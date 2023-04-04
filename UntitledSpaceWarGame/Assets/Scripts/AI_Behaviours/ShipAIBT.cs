@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using BehaviourTree;
-public class ShipBT : Tree
+public class ShipAIBT : Tree
 {
     public UnityEngine.Transform[] waypoints;
 
