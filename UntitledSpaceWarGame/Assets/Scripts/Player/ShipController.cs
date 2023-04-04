@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    public float _forwardSpeed = 25f;
+    public float _forwardSpeed = 35f;
     public float _strafeSpeed = 7.5f;
     public float _hoverSpeed = 5f;
 
@@ -43,19 +43,22 @@ public class ShipController : MonoBehaviour
 
         _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
 
-        // Apply rotations to player
-        transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
+        // Roll rotation calculations
+        _rollInput = Mathf.Lerp(_rollInput, Input.GetAxisRaw("Roll"), _rollAcceleration * Time.deltaTime);
 
-        // Roll Input Code
-        _rollInput = Mathf.Lerp(_rollInput, Input.GetAxisRaw("Roll"), _rollAcceleration * Time.deltaTime) ;
-
-        // Movement code
+      
+        // Movement calculations
         _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, Input.GetAxisRaw("Vertical") * _forwardSpeed, _forwardAcceleration * Time.deltaTime);
         _activeStrafeSpeed = Mathf.Lerp(_activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * _strafeSpeed, _forwardAcceleration * Time.deltaTime);
         _activeHoverSpeed = Mathf.Lerp(_activeHoverSpeed, Input.GetAxisRaw("Hover") * _hoverSpeed, _forwardAcceleration * Time.deltaTime);
 
+
+        // Apply Transformation
         transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
         transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
+
+        // Apply Rotation
+        transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
     }
 }
