@@ -6,7 +6,7 @@ public class ShipAIBT : Tree
 
     //Static variables for the nodes to reference
     public static float speed = 2f;
-    public static float fovRange = 6f;
+    public static float fovRange = 50f;
     public static float attackRange = 3f;
 
     protected override Node SetupTree()
@@ -24,7 +24,7 @@ public class ShipAIBT : Tree
                 new GoToTarget(transform),
             }),
             //Patrolling is the fallback option if no enemy is in range
-            new Patrol(transform, waypoints),
+            //new Patrol(transform, waypoints),
         });
 
         return root;
