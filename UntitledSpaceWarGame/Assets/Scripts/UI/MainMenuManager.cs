@@ -31,9 +31,6 @@ public class MainMenuManager : MonoBehaviour
     private bool _isSelectingShip = false;
     private int _teamSelected;
 
-    //TODO: Move camera to appropriate ships (of correct team)
-    //TODO: Highlight options for team/ship selection
-
     // Start is called before the first frame update
     void Start()
     {
@@ -161,27 +158,39 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void GoToShipSelection(string from, int teamIndex)
+    public void GoToShipSelection(string from)
     {
         //UI Switch
         switch (from)
         {
-            case "TeamSelection":
-                _teamSelection.SetActive(false);
-                _shipSelection.SetActive(true);
-                _isSelectingTeam = false;
-                _isSelectingShip = true;
-                break;
-
             case "MapSelection":
                 _mapSelection.SetActive(false);
-                _isSelectingShip = true;
+                break;
+
+            case "Blue":
+                _teamSelection.SetActive(false);
+                _shipSelection.SetActive(true);
+                _camera.SetCameraTarget(_cameraPositions[2]);
+                _ships[0].SetActive(true);
+                _teamSelected = 0;
+                break;
+
+            case "Red":
+                _teamSelection.SetActive(false);
+                _shipSelection.SetActive(true);
+                _camera.SetCameraTarget(_cameraPositions[3]);
+                _ships[1].SetActive(true);
+                _teamSelected = 1;
+                break;
+
+            case "Yellow":
+                _teamSelection.SetActive(false);
+                _shipSelection.SetActive(true);
+                _camera.SetCameraTarget(_cameraPositions[4]);
+                _ships[2].SetActive(true);
+                _teamSelected = 2;
                 break;
         }
-
-        _camera.SetCameraTarget(_cameraPositions[teamIndex + 2]);
-        _ships[teamIndex].SetActive(true);
-        _teamSelected = teamIndex;
     }
 
     public void GetControls()
