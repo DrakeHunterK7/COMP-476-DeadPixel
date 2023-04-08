@@ -188,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8389979874800009009, guid: 9d78929d516096c4f9522d99a63617bd, type: 3}
       propertyPath: _maxSpeed
-      value: 15
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8389979874800009009, guid: 9d78929d516096c4f9522d99a63617bd, type: 3}
       propertyPath: _velocity.x
@@ -479,6 +479,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7830554544517924004, guid: 6501a2bfcd01def41b9d63a3d7763d39, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6501a2bfcd01def41b9d63a3d7763d39, type: 3}
 --- !u!1 &5173859579927399183 stripped
@@ -503,7 +507,7 @@ MonoBehaviour:
   _velocity: {x: 0, y: 0, z: 1}
   _rotation: {x: 0, y: 0, z: 0}
   _accelerationRate: 1
-  _maxSpeed: 15
+  _maxSpeed: 45
 --- !u!114 &5173859579929400781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +552,10 @@ PrefabInstance:
     - target: {fileID: 7951224171136680928, guid: 704a31efdada9164093184195bafe5ca, type: 3}
       propertyPath: m_Name
       value: Asteroid_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951224171136680928, guid: 704a31efdada9164093184195bafe5ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7951224171136917440, guid: 704a31efdada9164093184195bafe5ca, type: 3}
       propertyPath: m_RootOrder
@@ -660,7 +668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8389979874800009009, guid: 9d78929d516096c4f9522d99a63617bd, type: 3}
       propertyPath: _maxSpeed
-      value: 15
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8389979874800009009, guid: 9d78929d516096c4f9522d99a63617bd, type: 3}
       propertyPath: _accelerationRate
