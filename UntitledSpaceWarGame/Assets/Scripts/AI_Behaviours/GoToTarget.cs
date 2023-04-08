@@ -7,20 +7,24 @@ using BehaviourTree;
 public class GoToTarget : Node
 {
     private Transform _transform;
+    private Seek seek;
 
     public GoToTarget(Transform transform)
     {
         _transform = transform;
+        seek = transform.GetComponent<Seek>();
     }
 
     public override NodeState Evaluate()
     {
         Transform target = (Transform)GetData("target");
-
+        
         if (Vector3.Distance(_transform.position, target.position) > 0.01f)
         {
-            _transform.position = Vector3.MoveTowards(_transform.position, target.position, ShipAIBT.speed * Time.deltaTime);
-            _transform.LookAt(target.position);
+            seek.enabled = true;
+            seek.AI = _transform;
+            seek.target = target;
+            seek.MaxVelocity = 5f;
         }
 
         state = NodeState.RUNNING;

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 302226706297576481}
   - component: {fileID: -6729627554799312549}
+  - component: {fileID: 5902669335641982208}
+  - component: {fileID: 6148477430802259499}
   m_Layer: 0
   m_Name: Team_1_AI
   m_TagString: Untagged
@@ -40,7 +42,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8624019384223593341}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a70d5548e3b6cb94fb75e2cce2f0a236, type: 3}
   m_Name: 
@@ -53,6 +55,36 @@ MonoBehaviour:
   freezeMovement: 0
   _activeMovements: []
   debugSteering: 0
+--- !u!114 &5902669335641982208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8624019384223593341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 868ec150129c2d14dadf6e5a37b9a63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints: []
+--- !u!114 &6148477430802259499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8624019384223593341}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bd7c0864b65074281953e5db0c2b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AI: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
+  Mass: 15
+  MaxVelocity: 3
+  MaxForce: 15
 --- !u!1001 &3145906611292871022
 PrefabInstance:
   m_ObjectHideFlags: 0

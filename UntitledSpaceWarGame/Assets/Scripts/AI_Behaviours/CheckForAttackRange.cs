@@ -19,9 +19,10 @@ public class CheckForAttackRange : Node
     public override NodeState Evaluate()
     {
         object t = GetData("target");
-
+        
         if (t == null)
         {
+            Debug.Log("Here");
             state = NodeState.FAILURE;
             return state;
         }
@@ -33,7 +34,7 @@ public class CheckForAttackRange : Node
             //Changing to attacking animation
             //_animator.SetBool("Attacking", true);
             //_animator.SetBool("Walking", false);
-
+            Debug.Log("Not here");
             state = NodeState.SUCCESS;
             return state;
         }

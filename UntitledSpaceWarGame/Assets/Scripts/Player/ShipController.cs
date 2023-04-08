@@ -18,6 +18,14 @@ public class ShipController : MonoBehaviour
     private float _activeStrafeSpeed;
     private float _activeHoverSpeed;
 
+
+
+    public GameObject bulletPrefab;
+
+    public GameObject shootpoint;
+
+
+
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
 
@@ -60,5 +68,29 @@ public class ShipController : MonoBehaviour
 
         // Apply Rotation
         transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+        }
+
     }
+
+
+
+
+    public void Shoot()
+    {
+        var forwarddir = (shootpoint.transform.position - transform.position).normalized;
+            
+                //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
+                var b = Instantiate(bulletPrefab, shootpoint.transform.position, Quaternion.identity);
+                b.GetComponent<Projectile>().direction = forwarddir;
+
+            
+        
+
+    }
+
+
 }
