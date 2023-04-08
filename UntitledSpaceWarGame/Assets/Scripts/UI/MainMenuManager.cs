@@ -7,6 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     //UI References
     [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _controlScreen;
     [SerializeField] private GameObject _teamSelection;
     [SerializeField] private GameObject _shipSelection;
@@ -169,10 +170,20 @@ public class MainMenuManager : MonoBehaviour
         _shipSelected.transform.GetChild(_teamSelected).gameObject.transform.GetChild(_shipTypeSelected).gameObject.SetActive(true);
     }
 
-    public void GetControls()
+    public void GetControls(string from)
     {
-        _mainMenu.SetActive(false);
-        _controlScreen.SetActive(true);
+        switch (from)
+        {
+            case "MainMenu":
+                _mainMenu.SetActive(false);
+                _controlScreen.SetActive(true);
+                break;
+
+            case "PauseMenu":
+                _pauseMenu.SetActive(false);
+                _controlScreen.SetActive(true);
+                break;
+        }
     }
 
     public void Quit()
