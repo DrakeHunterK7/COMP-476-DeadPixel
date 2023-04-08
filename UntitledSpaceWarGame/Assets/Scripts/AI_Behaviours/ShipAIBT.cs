@@ -33,4 +33,15 @@ public class ShipAIBT : Tree
 
         return root;
     }
+
+    public void SetRootData(string key, object value)
+    {
+        root.SetData(key, value);
+    }
+    
+    public object GetRootData(string key)
+    {
+        return root.GetData(key);
+    }
+    
 }
