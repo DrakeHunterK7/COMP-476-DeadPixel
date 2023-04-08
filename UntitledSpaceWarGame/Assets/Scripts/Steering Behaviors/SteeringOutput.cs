@@ -8,7 +8,7 @@ namespace AI
         public Quaternion _rotation;
 
 
-        public SteeringOutput(Vector2 velocity, Quaternion rotation)
+        public SteeringOutput(Vector3 velocity, Quaternion rotation)
         {
             _velocity = velocity;
             _rotation = rotation;

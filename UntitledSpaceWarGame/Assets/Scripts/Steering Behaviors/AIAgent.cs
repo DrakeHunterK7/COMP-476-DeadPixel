@@ -5,9 +5,10 @@ namespace AI
 {
     public class AIAgent : MonoBehaviour
     {
-        public float _maxForwardSpeed;
+        public float _maxForwardSpeed = 15.0f;
         public float _maxAngularRotationSpeed;
 
+        [HideInInspector]
         private float _activeForwardSpeed;
         private float _activeAngularRotation;
 
@@ -24,7 +25,7 @@ namespace AI
         [HideInInspector]
         public Vector3 forward;
 
-        public Vector3 Velocity;
+        public Vector3 _velocity;
 
         [HideInInspector]
         Vector3 acceleration;
@@ -44,52 +45,36 @@ namespace AI
         private void Awake()
         {
 
-            Velocity = Vector3.zero;
+            _velocity = Vector3.zero;
 
             _activeMovements = new List<AIMovement>();
-
+            _activeForwardSpeed = 15.0f;
 
             position = transform.position;
+            _activeMovements.Add(gameObject.GetComponent<Pursue>());
 
     }
 
         private void Update()
         {
             // Draws vertex of movement
-            Debug.DrawRay(transform.position, Velocity, Color.red);
+            //Debug.DrawRay(transform.position, _velocity, Color.red);
 
             steering = GetAcceleration();
 
             // sets the active forward speed
-            _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, _applyForwardSpeed * _maxForwardSpeed, _forwardAcceleration * Time.deltaTime);
+            //_activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, _applyForwardSpeed * _maxForwardSpeed, _forwardAcceleration * Time.deltaTime);
 
-            transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
 
-            float speed = Velocity.magnitude;
-            Vector3 dir;
+            _velocity = steering._velocity;
 
-            // This check needs to happen cause v/0 is invalid
-            if (speed != 0)
-            {
-                dir = Velocity / speed;
-            }
-            else
-            {
-                dir = Vector3.zero;
-            }
+            //Debug.Log(_velocity);
 
-            // Clamp speed and apply velocity
-            speed = Mathf.Clamp(speed, 0, _maxForwardSpeed);
-            Velocity = dir * speed;
+            // Forward Movement
+            transform.position += _velocity * Time.deltaTime;
 
-            // Apply transformation on ai position
-            if(Velocity != Vector3.zero)
-            {
-                //Quaternion rotationToApply = Quaternion.RotateTowards(transform.rotation, Velocity.normalized, _maxAngularRotationSpeed * Time.deltaTime);
-                //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationToApply, 720 * Time.deltaTime);
-
-                forward = dir;
-            }
+            // Orientate the ai to where we want them to go to
+            transform.rotation = Quaternion.Slerp(transform.rotation, steering._rotation, Time.deltaTime);
         }
 
         // Calculates the blend of movements that act on the agent
@@ -117,6 +102,7 @@ namespace AI
 
                     if(q != Quaternion.identity) // Blends Rotation components together
                     {
+                        Debug.Log("Rotation Should Be Applied");
                         _rotationBlend *= q;
                     }
                     
@@ -126,7 +112,7 @@ namespace AI
             SteeringOutput blend = new SteeringOutput(_velocityBlend, _rotationBlend);
 
             // Reset each frame
-            //_activeMovements = new List<AIMovement>();
+            _activeMovements = new List<AIMovement>();
 
             return blend;
         }
