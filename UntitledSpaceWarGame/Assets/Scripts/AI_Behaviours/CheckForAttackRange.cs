@@ -28,7 +28,7 @@ public class CheckForAttackRange : Node
 
         Transform target = (Transform)t;
 
-        if (Vector3.Distance(_transform.position, target.position) <= ShipBT.attackRange)
+        if (Vector3.Distance(_transform.position, target.position) <= ShipAIBT.attackRange)
         {
             //Changing to attacking animation
             //_animator.SetBool("Attacking", true);

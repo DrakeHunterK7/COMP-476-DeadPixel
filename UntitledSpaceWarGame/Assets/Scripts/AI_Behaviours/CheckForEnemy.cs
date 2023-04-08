@@ -24,7 +24,7 @@ public class CheckForEnemy : Node
 
         if (t == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(_transform.position, ShipBT.fovRange, _enemyLayerMask);
+            Collider[] colliders = Physics.OverlapSphere(_transform.position, ShipAIBT.fovRange, _enemyLayerMask);
 
             if (colliders.Length > 0)
             {
