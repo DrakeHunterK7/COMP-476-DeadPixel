@@ -12,6 +12,9 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject _shipSelection;
     [SerializeField] private GameObject _mapSelection;
 
+    //Player Data Reference
+    private PlayerInformation _playerData;
+
     //Camera Reference and Variables
     private CameraMovementMenu _camera;
     [SerializeField] private Camera _cameraObject;
@@ -21,98 +24,17 @@ public class MainMenuManager : MonoBehaviour
     //GameObject References
     [SerializeField] private GameObject[] _motherships;
     [SerializeField] private GameObject[] _ships;
-    private int _shipMask = 1 >> 6;
+    [SerializeField] private GameObject _shipSelected;
 
     //Selection Variables
-    private Transform _highlight;
-    private Transform _selection;
-    private RaycastHit _raycastHit;
-    private bool _isSelectingTeam = false;
-    private bool _isSelectingShip = false;
     private int _teamSelected;
+    private int _shipTypeSelected;
 
     // Start is called before the first frame update
     void Start()
     {
         _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovementMenu>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Select Team or Ship
-        if (_isSelectingTeam || _isSelectingShip)
-        {
-            //Show ships of selected team
-            if (_isSelectingShip)
-            {
-                _ships[_teamSelected].SetActive(true);
-            }
-
-            // Highlight Active GameObject
-            if (_highlight != null)
-            {
-                _highlight.gameObject.GetComponent<Outline>().enabled = false;
-                _highlight = null;
-            }
-
-            Ray ray_option_2 = _cameraObject.ScreenPointToRay(Input.mousePosition);
-
-            var mouseWP = _cameraObject.ScreenToWorldPoint(Input.mousePosition);
-            mouseWP.z = _cameraObject.nearClipPlane;
-            var rayDir = (mouseWP - _cameraObject.transform.position).normalized;
-            Vector3 rayOrigin = _cameraObject.transform.position;
-
-            Ray ray = new Ray(rayOrigin,rayDir*100f);
-
-            Debug.DrawRay(ray.origin, ray.direction * 10000f, Color.red, 100f);
-
-            if (Physics.Raycast(ray_option_2, out _raycastHit, _shipMask)) //Make sure you have EventSystem in the hierarchy before using EventSystem
-            {
-                _highlight = _raycastHit.transform;
-                Debug.Log("target found: " + _highlight.name);
-
-                if (_highlight.tag == "Selectable" && _highlight != _selection)
-                {
-                    if (_highlight.gameObject.GetComponent<Outline>() != null)
-                    {
-                        _highlight.gameObject.GetComponent<Outline>().enabled = true;
-                    }
-                    else
-                    {
-                        Outline outline = _highlight.gameObject.AddComponent<Outline>();
-                        outline.enabled = true;
-                    }
-                }
-                else
-                {
-                    _highlight = null;
-                }
-            }
-
-            // Selection of Team or ship
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (_highlight)
-                {
-                    if (_selection != null)
-                    {
-                        _selection.gameObject.GetComponent<Outline>().enabled = false;
-                    }
-                    _selection = _raycastHit.transform;
-                    _selection.gameObject.GetComponent<Outline>().enabled = true;
-                    _highlight = null;
-                }
-                else
-                {
-                    if (_selection)
-                    {
-                        _selection.gameObject.GetComponent<Outline>().enabled = false;
-                        _selection = null;
-                    }
-                }
-            }
-        }
+        _playerData = new PlayerInformation();
     }
 
     public void GoToMainMenu(string from)
@@ -139,15 +61,12 @@ public class MainMenuManager : MonoBehaviour
             case "MainMenu":
                 _mainMenu.SetActive(false);
                 _teamSelection.SetActive(true);
-                _isSelectingTeam = true;
                 _camera.SetCameraTarget(_cameraPositions[1]);
                 break;
 
             case "ShipSelection":
                 _shipSelection.SetActive(false);
                 _teamSelection.SetActive(true);
-                _isSelectingShip = false;
-                _isSelectingTeam = true;
                 _camera.SetCameraTarget(_cameraPositions[1]);
 
                 foreach (GameObject ships in _ships)
@@ -160,11 +79,22 @@ public class MainMenuManager : MonoBehaviour
 
     public void GoToShipSelection(string from)
     {
+        bool updateTeam = true;
+
         //UI Switch
         switch (from)
         {
             case "MapSelection":
+                //Hide Ship Selected Model
+                _shipSelected.transform.GetChild(_teamSelected).gameObject.SetActive(false);
+                _shipSelected.transform.GetChild(_teamSelected).gameObject.transform.GetChild(_shipTypeSelected).gameObject.SetActive(false);
+                //Update UI
                 _mapSelection.SetActive(false);
+                _shipSelection.SetActive(true);
+                //Update Camera Position
+                _camera.SetCameraTarget(_cameraPositions[_teamSelected + 2]);
+                _ships[_teamSelected].SetActive(true);
+                updateTeam = false;
                 break;
 
             case "Blue":
@@ -191,6 +121,52 @@ public class MainMenuManager : MonoBehaviour
                 _teamSelected = 2;
                 break;
         }
+
+        //Update Player Data if a team is selected
+        if (updateTeam)
+            _playerData.SetTeam(_teamSelected);
+    }
+
+    public void GoToMapSelection(string from)
+    {
+        //Hide the ships
+        _ships[_teamSelected].SetActive(false);
+
+        //UI Switch
+        switch (from)
+        {
+            case "Attack":
+                //Update UI
+                _shipSelection.SetActive(false);
+                _mapSelection.SetActive(true);
+                //Update Camera Position
+                _camera.SetCameraTarget(_cameraPositions[5]);
+                //Update
+                _shipTypeSelected = 0;
+                break;
+
+            case "Speed":
+                _shipSelection.SetActive(false);
+                _mapSelection.SetActive(true);
+                _camera.SetCameraTarget(_cameraPositions[5]);
+                _shipTypeSelected = 1;
+                break;
+
+            case "Defense":
+                _shipSelection.SetActive(false);
+                _mapSelection.SetActive(true);
+                _camera.SetCameraTarget(_cameraPositions[5]);
+                _shipTypeSelected = 2;
+                break;
+        }
+
+        //Update Player Data
+        _playerData.SetShipType(_shipTypeSelected);
+        Debug.Log(_playerData);
+
+        //Reveal Ship Selected Model
+        _shipSelected.transform.GetChild(_teamSelected).gameObject.SetActive(true);
+        _shipSelected.transform.GetChild(_teamSelected).gameObject.transform.GetChild(_shipTypeSelected).gameObject.SetActive(true);
     }
 
     public void GetControls()
