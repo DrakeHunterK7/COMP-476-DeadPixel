@@ -8,7 +8,7 @@ public class Patrol : Node
 {
     //Patrol attributes
     private Transform _transform;
-    private Transform[] _waypoints;
+    private List<Vector3> _waypoints;
     private Animator _animator;
 
     //Waypoint travel attributes
@@ -17,46 +17,61 @@ public class Patrol : Node
     private float _waitTime = 1f; // in seconds
     private float _waitCounter = 0f;
     private bool _waiting = false;
+    private AStarPathfinding pathfinder;
 
-    public Patrol(Transform transform, Transform[] waypoints )
+    public Patrol(Transform transform, AStarPathfinding pathfinding)
     {
+        pathfinder = pathfinding;
         _transform = transform;
-        _waypoints = waypoints;
         _animator = transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
     {
-        if (_waiting)
+
+        if (_waypoints == null || _waypoints.Count == 0 || _currentWaypointIndex == -1)
         {
-            _waitCounter += Time.deltaTime;
-            if (_waitCounter < _waitTime)
-            {
-                _waiting = false;
-                //Walking animation starts
-                //_animator.SetBool("Walking", true);
-            }
+            var randomLocation = new Vector3(Random.Range(-10000, 10000), Random.Range(-10000, 10000),
+                Random.Range(-10000, 10000));
+            _waypoints = pathfinder.AStarLoop(randomLocation);
+            
+            _currentWaypointIndex = _waypoints.Count - 1;
         }
         else
         {
-            Transform wp = _waypoints[_currentWaypointIndex];
-            if (Vector3.Distance(_transform.position, wp.position) < 0.01f)
+            Debug.DrawLine(_waypoints[_waypoints.Count-1], _waypoints[0], Color.yellow, 0.1f);
+            
+            if (_waiting)
             {
-                _transform.position = wp.position;
-                _waitCounter = 0f;
-                _waiting = true;
-
-                _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
-                //Idle animation starts
-                //_animator.SetBool("Walking", false);
+                _waitCounter += Time.deltaTime;
+                if (_waitCounter < _waitTime)
+                {
+                    _waiting = false;
+                    //Walking animation starts
+                    //_animator.SetBool("Walking", true);
+                }
             }
             else
             {
-                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, ShipAIBT.speed * Time.deltaTime);
-                _transform.LookAt(wp.position);
+                Vector3 wp = _waypoints[_currentWaypointIndex];
+                if (Vector3.Distance(_transform.position, wp) < 0.01f)
+                {
+                    _transform.position = wp;
+                    _waitCounter = 0f;
+                    _waiting = true;
+
+                    _currentWaypointIndex--; // = (_currentWaypointIndex + 1) % _waypoints.Length;
+                    //Idle animation starts
+                    //_animator.SetBool("Walking", false);
+                }
+                else
+                {
+                    _transform.position = Vector3.MoveTowards(_transform.position, wp, ShipAIBT.speed * Time.deltaTime);
+                    _transform.LookAt(wp);
+                }
             }
         }
-
+        
         state = NodeState.RUNNING;
         return state;
     }
