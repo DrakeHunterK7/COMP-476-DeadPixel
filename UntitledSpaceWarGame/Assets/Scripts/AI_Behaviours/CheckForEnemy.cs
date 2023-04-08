@@ -24,16 +24,20 @@ public class CheckForEnemy : Node
 
         if (t == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(_transform.position, ShipBT.fovRange, _enemyLayerMask);
+            Collider[] colliders = Physics.OverlapSphere(_transform.position, ShipAIBT.fovRange);
 
             if (colliders.Length > 0)
             {
-                parent.parent.SetData("target", colliders[0].transform);
-                //Change to animation to running
-                //_animator.SetBool("Running", true);
+                foreach (Collider c in colliders)
+                {
+                    if (c.gameObject.CompareTag("Player")) { 
+                    parent.parent.SetData("target", c.transform);
+                    //Change to animation to running
+                    //_animator.SetBool("Running", true);
 
-                state = NodeState.SUCCESS;
-                return state;
+                    state = NodeState.SUCCESS;
+                    return state;}
+                }
             }
 
             state = NodeState.FAILURE;

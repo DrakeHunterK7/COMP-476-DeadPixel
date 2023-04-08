@@ -1,16 +1,20 @@
 using System.Collections.Generic;
 using BehaviourTree;
-public class ShipBT : Tree
+using Unity.VisualScripting;
+using Sequence = BehaviourTree.Sequence;
+
+public class ShipAIBT : Tree
 {
     public UnityEngine.Transform[] waypoints;
 
     //Static variables for the nodes to reference
-    public static float speed = 2f;
+    public static float speed = 100f;
     public static float fovRange = 6f;
     public static float attackRange = 3f;
 
     protected override Node SetupTree()
     {
+        var pathfinder = new AStarPathfinding(gameObject);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
@@ -24,7 +28,7 @@ public class ShipBT : Tree
                 new GoToTarget(transform),
             }),
             //Patrolling is the fallback option if no enemy is in range
-            new Patrol(transform, waypoints),
+            new Patrol(transform, pathfinder),
         });
 
         return root;
