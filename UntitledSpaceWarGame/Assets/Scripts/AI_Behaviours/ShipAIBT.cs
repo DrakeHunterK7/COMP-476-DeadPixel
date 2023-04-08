@@ -17,6 +17,11 @@ public class ShipAIBT : Tree
         var pathfinder = new AStarPathfinding(gameObject);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
+             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
+            {
+                new CheckProjectile(transform),
+                new Dodge(transform),
+            }),
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
                 new CheckForAttackRange(transform),
@@ -28,7 +33,7 @@ public class ShipAIBT : Tree
                 new GoToTarget(transform),
             }),
             //Patrolling is the fallback option if no enemy is in range
-            new Patrol(transform, pathfinder),
+            //new Patrol(transform, pathfinder),
         });
 
         return root;

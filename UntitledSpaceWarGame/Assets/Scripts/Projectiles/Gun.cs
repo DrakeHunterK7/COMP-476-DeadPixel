@@ -18,11 +18,22 @@ public class Gun : Projectile
     void Update()
     {
         transform.position += direction * bulletspeed * Time.deltaTime;
-        Debug.Log(direction);
 
         if (Vector3.Distance(startpos, transform.position) > 1000f)
         {
             Destroy(this.gameObject);
         }
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 50f, ~LayerMask.GetMask("Projectiles")))
+        {
+            Debug.Log("RUNNING");
+            if (hit.collider.gameObject.CompareTag("AI"))
+            {
+                Debug.Log("GONNA HIT");
+                hit.collider.gameObject.GetComponentInParent<ShipAIBT>().SetRootData("WillbeHit", true);
+            }
+        };
     }
 }
