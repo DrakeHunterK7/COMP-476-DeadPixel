@@ -1,0 +1,9 @@
+Fonts used in this design:
+
+Font: Josefin Sans
+Author: Typemade
+Url: http://www.fontsquirrel.com/fonts/josefin-sans
+
+Font: Quicksand
+Author: Andrew Paglinawan
+Url: http://www.fontsquirrel.com/fonts/quicksand

@@ -7,7 +7,7 @@ public class CameraMovementMenu : MonoBehaviour
     //Camera Variables
     [SerializeField] private float _cameraMoveSpeed;
     [SerializeField] private float _cameraRotationSpeed;
-    private GameObject _target;
+    public GameObject _target;
 
     // Update is called once per frame
     void Update()
