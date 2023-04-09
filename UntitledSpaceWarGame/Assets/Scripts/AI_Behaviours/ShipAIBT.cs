@@ -26,11 +26,11 @@ public class ShipAIBT : Tree
                     new Sequence(new List<Node> 
                     {
                         new CheckDistanceFromThreat(this),
-                        new Evade(this)
+                        new Task_Evade(this)
                     }),
                     new Sequence(new List<Node> //This is where a ship attacks
                     {
-                        new Chase(this)
+                        new Task_Chase(this)
                     })
                 })
             }),
@@ -61,7 +61,7 @@ public class ShipAIBT : Tree
                 new CheckEnemyInFOV(this),
                 new Sequence(new List<Node>
                     {
-                        new GoToTarget(this),
+                        new Task_GoToTarget(this),
                         new CheckForAttackRange(this),
                         new Attack(this)
                     }
@@ -72,7 +72,7 @@ public class ShipAIBT : Tree
                 new CheckEnemyMotherships(this),
                 new Sequence(new List<Node>
                     {
-                        new GoToTarget(this),
+                        new Task_GoToTarget(this),
                         new CheckForAttackRange(this),
                         new Attack(this)
                     }

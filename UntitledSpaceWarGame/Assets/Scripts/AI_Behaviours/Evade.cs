@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
 
-public class Evade : Node
+public class Task_Evade : Node
 {
     private ShipAIBT owner;
     private ShipAIBT BT;
 
-    public Evade(ShipAIBT ownerShip)
+    public Task_Evade(ShipAIBT ownerShip)
     {
         owner = ownerShip;
     }

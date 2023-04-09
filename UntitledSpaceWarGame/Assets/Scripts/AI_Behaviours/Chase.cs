@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
 
-public class Chase : Node
+public class Task_Chase : Node
 {
     private ShipAIBT owner;
     private ShipAIBT BT;
 
-    public Chase(ShipAIBT ownerShip)
+    public Task_Chase(ShipAIBT ownerShip)
     {
         owner = ownerShip;
     }

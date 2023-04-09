@@ -4,15 +4,15 @@ using UnityEngine;
 
 using BehaviourTree;
 
-public class GoToTarget : Node
+public class Task_GoToTarget : Node
 {
     private ShipAIBT owner;
-    private Seek seek;
+    //private Seek seek;
 
-    public GoToTarget(ShipAIBT ownerShip)
+    public Task_GoToTarget(ShipAIBT ownerShip)
     {
         owner = ownerShip;
-        seek = owner.transform.GetComponent<Seek>();
+        //seek = owner.transform.GetComponent<Seek>();
     }
 
     public override NodeState Evaluate()
@@ -21,10 +21,10 @@ public class GoToTarget : Node
         
         if (Vector3.Distance(owner.transform.position, target.position) > 0.01f)
         {
-            seek.enabled = true;
-            seek.AI = owner.transform;
-            seek.target = target;
-            seek.MaxVelocity = 5f;
+            // seek.enabled = true;
+            // seek.AI = owner.transform;
+            // seek.target = target;
+            // seek.MaxVelocity = 5f;
         }
 
         state = NodeState.RUNNING;
