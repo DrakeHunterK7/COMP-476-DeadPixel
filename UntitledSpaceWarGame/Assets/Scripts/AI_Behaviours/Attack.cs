@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
+using Unity.VisualScripting;
 
 public class Attack : Node //@FIXME NEEDS UPDATING FOR DYNAMIC ATTACK PATTERNS (STATIC ATTACK FOR NOW)
 {
@@ -9,15 +10,18 @@ public class Attack : Node //@FIXME NEEDS UPDATING FOR DYNAMIC ATTACK PATTERNS (
 
     //Reference to enemy (@TODO NEEDS UPDATING FOR ENEMY SHIPS)
     private Transform _lastTarget;
+
+    private ShipAIBT owner;
     //private EnemyManager _enemyManager;
 
     //Attack variables
     private float _attackTime = 1f;
     private float _attackCounter = 0f;
     
-    public Attack(Transform transform)
+    public Attack(ShipAIBT ownerShip)
     {
-        _animator = transform.GetComponent<Animator>();
+        _animator = ownerShip.transform.GetComponent<Animator>();
+        owner = ownerShip;
     }
 
     public override NodeState Evaluate()

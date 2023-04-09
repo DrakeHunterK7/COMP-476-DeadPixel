@@ -4,7 +4,7 @@ using UnityEngine;
 
 using BehaviourTree;
 
-public class Patrol : Node
+public class PatrolNearMothership : Node
 {
     //Patrol attributes
     private ShipAIBT owner;
@@ -19,7 +19,7 @@ public class Patrol : Node
     private bool _waiting = false;
     private AStarPathfinding pathfinder;
 
-    public Patrol(ShipAIBT ownerShip, AStarPathfinding pathfinding)
+    public PatrolNearMothership(ShipAIBT ownerShip, AStarPathfinding pathfinding)
     {
         pathfinder = pathfinding;
         owner = ownerShip;

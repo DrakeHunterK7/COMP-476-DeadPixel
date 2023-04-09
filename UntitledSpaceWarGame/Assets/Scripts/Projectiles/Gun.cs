@@ -32,7 +32,8 @@ public class Gun : Projectile
             if (hit.collider.gameObject.CompareTag("AI"))
             {
                 Debug.Log("GONNA HIT");
-                hit.collider.gameObject.GetComponentInParent<ShipAIBT>().SetRootData("WillbeHit", true);
+                var shipScript = hit.collider.gameObject.GetComponentInParent<ShipAIBT>();
+                shipScript.SetRootData("Target", ownerShip);
             }
         };
     }

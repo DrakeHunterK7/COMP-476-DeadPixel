@@ -6,23 +6,23 @@ using BehaviourTree;
 
 public class GoToTarget : Node
 {
-    private Transform _transform;
+    private ShipAIBT owner;
     private Seek seek;
 
-    public GoToTarget(Transform transform)
+    public GoToTarget(ShipAIBT ownerShip)
     {
-        _transform = transform;
-        seek = transform.GetComponent<Seek>();
+        owner = ownerShip;
+        seek = owner.transform.GetComponent<Seek>();
     }
 
     public override NodeState Evaluate()
     {
         Transform target = (Transform)GetData("target");
         
-        if (Vector3.Distance(_transform.position, target.position) > 0.01f)
+        if (Vector3.Distance(owner.transform.position, target.position) > 0.01f)
         {
             seek.enabled = true;
-            seek.AI = _transform;
+            seek.AI = owner.transform;
             seek.target = target;
             seek.MaxVelocity = 5f;
         }

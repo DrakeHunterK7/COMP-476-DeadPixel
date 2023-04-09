@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AI_Behaviours;
 using BehaviourTree;
 using Unity.VisualScripting;
 using Sequence = BehaviourTree.Sequence;
@@ -17,23 +18,67 @@ public class ShipAIBT : Tree
         var pathfinder = new AStarPathfinding(gameObject);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
-             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
+            new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
-                new CheckProjectile(transform),
-                new Dodge(transform),
+                new CheckDirectThreats(this),
+                new Selector(new List<Node>
+                {
+                    new Sequence(new List<Node> 
+                    {
+                        new CheckDistanceFromThreat(this),
+                        new Evade(this)
+                    }),
+                    new Sequence(new List<Node> //This is where a ship attacks
+                    {
+                        new Chase(this)
+                    })
+                })
             }),
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
-                new CheckForAttackRange(transform),
-                new Attack(transform),
+                new CheckOutOfBounds(this),
+                new GoBackInBounds(this)
+            }),
+            // new Sequence(new List<Node>  
+            // { 
+            //     new CheckMothershipStatus(this), 
+            //     new CheckEnemyCountNearMothership(this),
+            //     new Sequence(new List<Node>
+            //         {
+            //             new GoToMothership(this),
+            //             new CheckForAttackRange(this),
+            //             new PatrolNearMothership(this, pathfinder)
+            //         }
+            //     )
+            // }),
+            new Sequence(new List<Node>
+            { 
+                new CheckTeammateInNeed(this),
+                new HelpTeammate(this)
             }),
             new Sequence(new List<Node>
             { 
-                new CheckForEnemy(transform),
-                new GoToTarget(transform),
+                new CheckEnemyInFOV(this),
+                new Sequence(new List<Node>
+                    {
+                        new GoToTarget(this),
+                        new CheckForAttackRange(this),
+                        new Attack(this)
+                    }
+                )
             }),
-            //Patrolling is the fallback option if no enemy is in range
-            //new Patrol(transform, pathfinder),
+            new Sequence(new List<Node>
+            { 
+                new CheckEnemyMotherships(this),
+                new Sequence(new List<Node>
+                    {
+                        new GoToTarget(this),
+                        new CheckForAttackRange(this),
+                        new Attack(this)
+                    }
+                )
+            }),
+            new Patrol(this, pathfinder)
         });
 
         return root;

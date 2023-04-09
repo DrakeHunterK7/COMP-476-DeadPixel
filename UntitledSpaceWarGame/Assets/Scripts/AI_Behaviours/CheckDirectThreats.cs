@@ -2,28 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
-public class CheckProjectile : Node
+public class CheckDirectThreats : Node
 {
-    private Transform _transform;
+    private ShipAIBT owner;
     private ShipAIBT BT;
-    public CheckProjectile(Transform transform)
+    public CheckDirectThreats(ShipAIBT ownerShip)
     {
-        _transform = transform;
-        BT = transform.GetComponent<ShipAIBT>();
-
+        owner = ownerShip;
+        BT = owner.gameObject.GetComponent<ShipAIBT>();
     }
 
     public override NodeState Evaluate()
     {
-        var willbehit = BT.GetRootData("WillbeHit");
+        var willbehit = BT.GetRootData("Target");
 
         if (willbehit != null)
         {
             state = NodeState.SUCCESS;
             return state;
         }
-       
-
 
         state = NodeState.FAILURE;
         return state;

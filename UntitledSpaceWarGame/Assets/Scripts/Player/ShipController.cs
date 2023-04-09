@@ -85,10 +85,9 @@ public class ShipController : MonoBehaviour
             
                 //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
                 var b = Instantiate(bulletPrefab, shootpoint.transform.position, Quaternion.identity);
-                b.GetComponent<Projectile>().direction = forwarddir;
-
-            
-        
+                var projScript = b.GetComponent<Projectile>();
+                projScript.direction = forwarddir;
+                projScript.ownerShip = gameObject;
 
     }
 

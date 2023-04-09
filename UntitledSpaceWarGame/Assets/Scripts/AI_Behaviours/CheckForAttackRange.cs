@@ -7,13 +7,13 @@ public class CheckForAttackRange : Node
 {
     private static int _enemyLayerMask = 1 << 6;
 
-    private Transform _transform;
+    private ShipAIBT owner;
     private Animator _animator;
 
-    public CheckForAttackRange(Transform transform)
+    public CheckForAttackRange(ShipAIBT ownerShip)
     {
-        _transform = transform;
-        _animator = transform.GetComponent<Animator>();
+        owner = ownerShip;
+        _animator = owner.transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
@@ -29,12 +29,8 @@ public class CheckForAttackRange : Node
 
         Transform target = (Transform)t;
 
-        if (Vector3.Distance(_transform.position, target.position) <= ShipAIBT.attackRange)
+        if (Vector3.Distance(owner.transform.position, target.position) <= ShipAIBT.attackRange)
         {
-            //Changing to attacking animation
-            //_animator.SetBool("Attacking", true);
-            //_animator.SetBool("Walking", false);
-            Debug.Log("Not here");
             state = NodeState.SUCCESS;
             return state;
         }
