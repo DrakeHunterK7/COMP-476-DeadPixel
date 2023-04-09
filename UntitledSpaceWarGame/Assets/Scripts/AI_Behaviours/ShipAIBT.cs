@@ -6,7 +6,7 @@ using Sequence = BehaviourTree.Sequence;
 
 public class ShipAIBT : Tree
 {
-    public UnityEngine.Transform[] waypoints;
+    public List<UnityEngine.Transform> _waypoints;
 
     //Static variables for the nodes to reference
     public static float speed = 100f;
@@ -15,7 +15,6 @@ public class ShipAIBT : Tree
 
     protected override Node SetupTree()
     {
-        var pathfinder = new AStarPathfinding(gameObject);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
@@ -78,7 +77,8 @@ public class ShipAIBT : Tree
                     }
                 )
             }),
-            new Patrol(this, pathfinder)
+            // This should be called after any path that we calculate
+            //new Task_Follow_Path(transform, this) // TESTING WITH WAYPOINTS, NEED TO CHANGE AND GENERATE PATHFINDING BASED ON OTHER CONDITIONS
         });
 
         return root;

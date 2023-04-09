@@ -4,6 +4,11 @@ using UnityEngine;
 
 using AI;
 
+/* THIS SCRIPT IS USED FOR DYNAMIC MOVEMENTS
+ * SHOULD BE USED WHEN CHASING PLAYER OR OTHER AI ENTITIES
+ * 
+ */
+
 public class Pursue : AIMovement
 {
     public Transform _target;

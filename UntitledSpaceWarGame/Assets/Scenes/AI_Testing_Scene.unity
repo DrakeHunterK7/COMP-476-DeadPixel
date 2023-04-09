@@ -452,6 +452,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: waypoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: _waypoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 907320011}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1528593955}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: waypoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 860930291}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: _waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 907320011}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: _waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1528593955}
+    - target: {fileID: -1748932093352447733, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+      propertyPath: _waypoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 860930291}
     - target: {fileID: 4828179908658954119, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -706,11 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   weight: 0
-  target: {fileID: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  Mass: 15
-  MaxVelocity: 3
-  MaxForce: 15
+  _target: {fileID: 0}
 --- !u!114 &1836654486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,14 +763,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70d5548e3b6cb94fb75e2cce2f0a236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardSpeed: 15
+  _maxForwardSpeed: 100
   _maxAngularRotationSpeed: 15
   position: {x: 0, y: 0, z: 0}
   forward: {x: 0, y: 0, z: 0}
-  Velocity: {x: 0, y: 0, z: 0}
+  _velocity: {x: 0, y: 0, z: 0}
   freezeMovement: 0
   _activeMovements: []
   debugSteering: 0
+--- !u!114 &1836654491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836654480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613abd00fbc81ba488ec479814b6803d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
 --- !u!1001 &1868193909
 PrefabInstance:
   m_ObjectHideFlags: 0
