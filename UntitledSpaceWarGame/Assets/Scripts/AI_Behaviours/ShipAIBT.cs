@@ -74,13 +74,13 @@ public class ShipAIBT : Tree
         return shipInformation;
     }
 
-    public void SetShipDate(int team, int shipType)
+    public void SetShipData(int team, int shipType)
     {
         shipInformation = new ShipInformation(team, shipType);
     }
     
-    // public void SetShipDate(ShipInformation newShipInfo)
-    // {
-    //     shipInformation = new ShipInformation(newShipInfo);
-    // }
+    public void SetShipData(ShipInformation newShipInfo)
+    {
+        shipInformation = new ShipInformation(newShipInfo);
+    }
 }

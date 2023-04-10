@@ -30,7 +30,11 @@ public class ObstaclePhysics : MonoBehaviour
     {
         _currentSpeed = Mathf.Lerp(_currentSpeed, _velocity.normalized.magnitude * _maxSpeed, _accelerationRate * Time.deltaTime);
 
-        transform.position += _velocity.normalized * _currentSpeed * Time.deltaTime;
-        transform.Rotate(_rotation, Space.World);
+        if (Vector3.Magnitude(_velocity.normalized * _currentSpeed * Time.deltaTime) < Mathf.Infinity)
+        {
+            transform.position += _velocity.normalized * _currentSpeed * Time.deltaTime;
+            transform.Rotate(_rotation, Space.World);
+        }
+        
     }
 }

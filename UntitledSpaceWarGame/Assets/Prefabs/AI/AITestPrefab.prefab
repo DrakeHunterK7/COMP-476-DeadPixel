@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6748412765512352565}
   - component: {fileID: -1748932093352447733}
-  - component: {fileID: 1624198515}
   - component: {fileID: 516791876209685413}
   m_Layer: 0
   m_Name: AITestPrefab
@@ -76,36 +75,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6748412765512352562}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 868ec150129c2d14dadf6e5a37b9a63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
---- !u!114 &1624198515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6748412765512352562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50ed7c2e92c55b49b4e3cf872cad3b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _forwardSpeed: 200
-  _strafeSpeed: 7.5
-  _hoverSpeed: 5
-  _LookRateSpeed: 90
-  _rollSpeed: 90
-  _shootpoint: {fileID: 367558666}
-  _bulletPrefab: {fileID: 21995312768275671, guid: bb165b3f457dfd345aada873e9634224, type: 3}
-  _laserPrefab: {fileID: 21995312768275671, guid: 96641d098b4db7a48a2e77390e87a023, type: 3}
-  _missileIcon: {fileID: 0}
-  _missileCrossair: {fileID: 0}
-  _laserIcon: {fileID: 0}
-  _laserCrossair: {fileID: 0}
+  _waypoints: []
 --- !u!114 &516791876209685413
 MonoBehaviour:
   m_ObjectHideFlags: 0
