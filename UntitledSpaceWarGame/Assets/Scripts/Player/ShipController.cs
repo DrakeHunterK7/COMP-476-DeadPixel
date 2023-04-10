@@ -27,6 +27,8 @@ public class ShipController : MonoBehaviour
     public GameObject _laserPrefab;
     private bool _weaponChanged = false;
 
+    [HideInInspector]
+    public Vector3 velocity;
 
     //Weapon UI References
     [Header ("Weapon UI References")]
@@ -35,6 +37,8 @@ public class ShipController : MonoBehaviour
     public GameObject _laserIcon;
     public GameObject _laserCrossair;
 
+    //Ship Information Reference
+    private ShipInformation _shipData;
 
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
@@ -105,7 +109,7 @@ public class ShipController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            _weaponChanged = !_weaponChanged;
+            ChangeWeapon();
         }
 
     }
@@ -145,6 +149,7 @@ public class ShipController : MonoBehaviour
             laserLine.SetPosition(0, _shootpoint.transform.position);
             laserLine.enabled = true;
             RaycastHit hit;
+
             if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 1000f))
             {
                 laserLine.SetPosition(1, hit.point);
@@ -164,5 +169,20 @@ public class ShipController : MonoBehaviour
 
         }
         
+    }
+
+    public ShipInformation GetShipData()
+    {
+        return _shipData;
+    }
+
+    public void SetShipData(int team, int shipType)
+    {
+        _shipData = new ShipInformation(team, shipType);
+    }
+
+    public void SetShipData(ShipInformation shipData)
+    {
+        _shipData = new ShipInformation(shipData);
     }
 }

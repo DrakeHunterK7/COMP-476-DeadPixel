@@ -60,7 +60,7 @@ namespace AI_Behaviours
                         {
                             var playerScript = agent.GetComponent<ShipController>();
                             
-                            if (playerScript.shipInformation._team != ownerShip.shipInformation._team)
+                            if (playerScript.GetShipData()._team != ownerShip.shipInformation._team)
                             {
                                 Debug.Log("Player detected!");
                                 target = playerScript.gameObject;
