@@ -7,14 +7,13 @@ public class MainMenuManager : MonoBehaviour
 {
     //UI References
     [SerializeField] private GameObject _mainMenu;
-    [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _controlScreen;
     [SerializeField] private GameObject _teamSelection;
     [SerializeField] private GameObject _shipSelection;
     [SerializeField] private GameObject _mapSelection;
 
     //Player Data Reference
-    private PlayerInformation _playerData;
+    private ShipInformation _playerData;
 
     //Camera Reference and Variables
     private CameraMovementMenu _camera;
@@ -35,7 +34,7 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovementMenu>();
-        _playerData = new PlayerInformation();
+        _playerData = new ShipInformation();
     }
 
     public void GoToMainMenu(string from)
@@ -163,27 +162,16 @@ public class MainMenuManager : MonoBehaviour
 
         //Update Player Data
         _playerData.SetShipType(_shipTypeSelected);
-        Debug.Log(_playerData);
 
         //Reveal Ship Selected Model
         _shipSelected.transform.GetChild(_teamSelected).gameObject.SetActive(true);
         _shipSelected.transform.GetChild(_teamSelected).gameObject.transform.GetChild(_shipTypeSelected).gameObject.SetActive(true);
     }
 
-    public void GetControls(string from)
+    public void GetControls()
     {
-        switch (from)
-        {
-            case "MainMenu":
-                _mainMenu.SetActive(false);
-                _controlScreen.SetActive(true);
-                break;
-
-            case "PauseMenu":
-                _pauseMenu.SetActive(false);
-                _controlScreen.SetActive(true);
-                break;
-        }
+        _mainMenu.SetActive(false);
+        _controlScreen.SetActive(true);
     }
 
     public void Quit()

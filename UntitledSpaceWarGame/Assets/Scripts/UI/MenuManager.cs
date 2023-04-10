@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    //Pause variables
-    public GameObject pauseUI;
+    //UI References
+    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _controlMenu;
+    [SerializeField] private GameObject _playerHUD;
     [SerializeField] bool canPause;
 
     private void Start()
@@ -29,14 +31,30 @@ public class MenuManager : MonoBehaviour
     {
         //Pause game and unlock/show cursor
         Time.timeScale = 0;
-        pauseUI.SetActive(true);
+        _pauseMenu.SetActive(true);
+        _playerHUD.SetActive(false);
     }
 
     public void Resume()
     {
         //Resume game and hide/lock cursor
         Time.timeScale = 1;
-        pauseUI.SetActive(false);
+        _pauseMenu.SetActive(false);
+        _playerHUD.SetActive(true);
+    }
+
+    public void ToggleControls()
+    {
+        if (_controlMenu.activeSelf)
+        {
+            _controlMenu.SetActive(false);
+            _pauseMenu.SetActive(true);
+        }
+        else
+        {
+            _controlMenu.SetActive(true);
+            _pauseMenu.SetActive(false);
+        }
     }
 
     //Load the scene from the given name
