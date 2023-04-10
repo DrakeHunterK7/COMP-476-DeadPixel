@@ -10,6 +10,7 @@ public class AsteroidGenerator : MonoBehaviour
     public GameObject asteroid;
     public float startSafeRange;
     private List<GameObject> objectsToPlace = new List<GameObject>();
+    private List<Vector3> _previousPositions = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
@@ -31,23 +32,23 @@ public class AsteroidGenerator : MonoBehaviour
         asteroid.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void PickSpawnPoint()
     {
-        spawnPoint = new Vector3(
-            Random.Range(-1f,1f),
+        do
+        {
+            spawnPoint = new Vector3(
+            Random.Range(-1f, 1f),
             Random.Range(-1f, 1f),
             Random.Range(-1f, 1f));
 
-        if(spawnPoint.magnitude > 1)
-        {
-            spawnPoint.Normalize();
+            if (spawnPoint.magnitude > 1)
+            {
+                spawnPoint.Normalize();
+            }
         }
+        while (_previousPositions.Contains(spawnPoint));
+
+        _previousPositions.Add(spawnPoint);
 
         spawnPoint *= spawnRange;
         spawnPoint += transform.position;

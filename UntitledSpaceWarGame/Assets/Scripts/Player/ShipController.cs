@@ -40,6 +40,9 @@ public class ShipController : MonoBehaviour
     public GameObject _laserIcon;
     public GameObject _laserCrossair;
 
+    //Ship Information
+    private ShipInformation _shipData;
+
 
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
@@ -49,7 +52,7 @@ public class ShipController : MonoBehaviour
     private Vector2 _lookInput, _centerOfScreen, _mouseDistance;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
@@ -142,5 +145,20 @@ public class ShipController : MonoBehaviour
             projScript.ownerShip = gameObject;
         }
         
+    }
+
+    public ShipInformation GetShipData()
+    {
+        return _shipData;
+    }
+
+    public void SetShipData(int team, int shipType)
+    {
+        _shipData = new ShipInformation(team, shipType);
+    }
+
+    public void SetShipData(ShipInformation shipData)
+    {
+        _shipData = new ShipInformation(shipData);
     }
 }

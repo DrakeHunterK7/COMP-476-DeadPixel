@@ -11,12 +11,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _playerHUD;
     [SerializeField] bool canPause;
 
-    private void Start()
-    {
-        //Correct Time Scale if at Zero
-        if (Time.timeScale == 0) Time.timeScale = 1;
-    }
-
     // Update is called once per frame
     void Update()
     {
