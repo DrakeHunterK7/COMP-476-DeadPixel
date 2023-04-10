@@ -13,17 +13,19 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Seek : AIMovement
 {
-    Vector3 _targetPosition;
-
+    private Vector3 _targetPosition;
+    public Transform _targetTransform;
 
     public override SteeringOutput GetMovement(AIAgent agent)
     {
         SteeringOutput output =  base.GetMovement(agent);
 
+        _targetPosition = _targetTransform.position;
+
         Vector3 lookAtVector = (_targetPosition - agent.transform.position).normalized;
 
         // Apply movement and rotation to AI
-        output._rotation = Quaternion.LookRotation(lookAtVector, Vector3.up);
+        output._rotation = Quaternion.LookRotation(lookAtVector, agent.transform.up);
         output._velocity = agent.transform.forward;
 
         return output;

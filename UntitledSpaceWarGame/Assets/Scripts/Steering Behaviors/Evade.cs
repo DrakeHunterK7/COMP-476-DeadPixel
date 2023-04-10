@@ -28,8 +28,10 @@ public class Evade : AIMovement
         AIAgent targetAgent = _target.GetComponent<AIAgent>();
         ShipController targetPlayer = null;
 
+
         Vector3 targetVelocity = Vector3.zero; //targetAgent._velocity;
         
+        // if the target isn't an Ai but is instead the player
         if (targetAgent == null)
         {
             targetPlayer = _target.GetComponent<ShipController>();
