@@ -7,6 +7,9 @@ TagManager:
   - Selectable
   - TrackingObject
   - Actors
+  - Enemy
+  - AI
+  - Obstacle
   - CharacterData
   layers:
   - Default
@@ -16,8 +19,8 @@ TagManager:
   - Water
   - UI
   - Ships
-  - 
-  - 
+  - Projectiles
+  - Obstacles
   - 
   - 
   - 

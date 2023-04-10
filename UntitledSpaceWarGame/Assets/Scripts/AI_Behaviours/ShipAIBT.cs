@@ -1,36 +1,86 @@
 using System.Collections.Generic;
+using AI_Behaviours;
 using BehaviourTree;
 using Unity.VisualScripting;
+using UnityEngine;
 using Sequence = BehaviourTree.Sequence;
+using Tree = BehaviourTree.Tree;
 
 public class ShipAIBT : Tree
 {
-    public UnityEngine.Transform[] waypoints;
+    public List<UnityEngine.Transform> _waypoints;
 
-    //Static variables for the nodes to reference
-    public static float speed = 100f;
-    public static float fovRange = 6f;
-    public static float attackRange = 3f;
+    public ShipInformation shipInformation;
 
     protected override Node SetupTree()
     {
-        var pathfinder = new AStarPathfinding(gameObject);
+        shipInformation = new ShipInformation(Random.Range(0, 3), 2);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
-                new CheckForAttackRange(transform),
-                new Attack(transform),
+                new CheckOutOfBounds(this),
+                new GoBackInBounds(this)
+            }),
+            new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
+            {
+                new CheckDirectThreats(this),
+                new Selector(new List<Node>
+                {
+                    new Sequence(new List<Node> 
+                    {
+                        new CheckDistanceFromThreat(this),
+                        new Task_Evade(this)
+                    }),
+                    new Task_Chase(this)
+                })
             }),
             new Sequence(new List<Node>
             { 
-                new CheckForEnemy(transform),
-                new GoToTarget(transform),
+                new CheckTeammateInNeed(this),
+                new HelpTeammate(this)
             }),
-            //Patrolling is the fallback option if no enemy is in range
-            //new Patrol(transform, pathfinder),
+            new CheckEnemyInFOV(this),
+            new Sequence(new List<Node>
+            { 
+                new CheckEnemyMotherships(this),
+                new Sequence(new List<Node>
+                    {
+                        new Task_GoToTarget(this),
+                        new CheckForAttackRange(this),
+                        new Attack(this)
+                    }
+                )
+            }),
+            // This should be called after any path that we calculate
+            //new Task_Follow_Path(transform, this) // TESTING WITH WAYPOINTS, NEED TO CHANGE AND GENERATE PATHFINDING BASED ON OTHER CONDITIONS
         });
 
         return root;
+    }
+
+    public void SetRootData(string key, object value)
+    {
+        root.SetData(key, value);
+    }
+    
+    public object GetRootData(string key)
+    {
+        return root.GetData(key);
+    }
+
+    public ShipInformation GetShipData()
+    {
+        return shipInformation;
+    }
+
+    public void SetShipData(int team, int shipType)
+    {
+        shipInformation = new ShipInformation(team, shipType);
+    }
+    
+    public void SetShipData(ShipInformation newShipInfo)
+    {
+        shipInformation = new ShipInformation(newShipInfo);
     }
 }

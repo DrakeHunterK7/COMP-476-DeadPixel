@@ -72,12 +72,15 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateAgentModel(GameObject agentModel, bool isAlly)
     {
-        int team = agentModel.GetComponent<ShipController>().GetShipData().GetTeam();
-        int shipType = agentModel.GetComponent<ShipController>().GetShipData().GetShipType();
+        int team = 0;
+        int shipType = 0;
 
         //Update Outline Color
-        if (agentModel.tag != "Player")
+        if (!agentModel.CompareTag("Player"))
         {
+            team = agentModel.GetComponent<ShipAIBT>().GetShipData().GetTeam();
+            shipType = agentModel.GetComponent<ShipAIBT>().GetShipData().GetShipType();
+
             if (isAlly)
                 agentModel.GetComponent<Outline>().SetColor(_teamColor);
             else
@@ -99,6 +102,9 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            team = agentModel.GetComponent<ShipController>().GetShipData().GetTeam();
+            shipType = agentModel.GetComponent<ShipController>().GetShipData().GetShipType();
+
             //Update Team Model
             agentModel.transform.GetChild(team).gameObject.SetActive(true);
 
@@ -135,7 +141,9 @@ public class LevelManager : MonoBehaviour
         {
             int shipType = Random.Range(0, 3);
             GameObject ally = Instantiate(_aiModel, _allyPositions[i].transform.position, _allyPositions[i].transform.rotation);
-            ally.GetComponent<ShipController>().SetShipData(team, shipType);
+            var allyScript = ally.GetComponent<ShipAIBT>();
+            Debug.Log(allyScript);
+            allyScript.SetShipData(team, shipType);
             UpdateAgentModel(ally, true);
         }
 
@@ -144,7 +152,7 @@ public class LevelManager : MonoBehaviour
         {
             int shipType = Random.Range(0, 3);
             GameObject enemy = Instantiate(_aiModel, _enemyPositions_1[j].transform.position, _enemyPositions_1[j].transform.rotation);
-            enemy.GetComponent<ShipController>().SetShipData(enemyTeam_1, shipType);
+            enemy.GetComponent<ShipAIBT>().SetShipData(enemyTeam_1, shipType);
             UpdateAgentModel(enemy, false);
         }
 
@@ -152,7 +160,7 @@ public class LevelManager : MonoBehaviour
         {
             int shipType = Random.Range(0, 3);
             GameObject enemy = Instantiate(_aiModel, _enemyPositions_2[k].transform.position, _enemyPositions_2[k].transform.rotation);
-            enemy.GetComponent<ShipController>().SetShipData(enemyTeam_2, shipType);
+            enemy.GetComponent<ShipAIBT>().SetShipData(enemyTeam_2, shipType);
             UpdateAgentModel(enemy, false);
         }
     }

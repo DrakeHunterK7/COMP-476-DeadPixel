@@ -4,10 +4,10 @@ using UnityEngine;
 
 using BehaviourTree;
 
-public class Patrol : Node
+public class PatrolNearMothership : Node
 {
     //Patrol attributes
-    private Transform _transform;
+    private ShipAIBT owner;
     private List<Vector3> _waypoints;
     private Animator _animator;
 
@@ -19,11 +19,11 @@ public class Patrol : Node
     private bool _waiting = false;
     private AStarPathfinding pathfinder;
 
-    public Patrol(Transform transform, AStarPathfinding pathfinding)
+    public PatrolNearMothership(ShipAIBT ownerShip, AStarPathfinding pathfinding)
     {
         pathfinder = pathfinding;
-        _transform = transform;
-        _animator = transform.GetComponent<Animator>();
+        owner = ownerShip;
+        _animator = owner.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
@@ -54,9 +54,9 @@ public class Patrol : Node
             else
             {
                 Vector3 wp = _waypoints[_currentWaypointIndex];
-                if (Vector3.Distance(_transform.position, wp) < 0.01f)
+                if (Vector3.Distance(owner.transform.position, wp) < 0.01f)
                 {
-                    _transform.position = wp;
+                    owner.transform.position = wp;
                     _waitCounter = 0f;
                     _waiting = true;
 
@@ -66,8 +66,8 @@ public class Patrol : Node
                 }
                 else
                 {
-                    _transform.position = Vector3.MoveTowards(_transform.position, wp, ShipAIBT.speed * Time.deltaTime);
-                    _transform.LookAt(wp);
+                    owner.transform.position = Vector3.MoveTowards(owner.transform.position, wp, owner.shipInformation._movementSpeed * Time.deltaTime);
+                    owner.transform.LookAt(wp);
                 }
             }
         }

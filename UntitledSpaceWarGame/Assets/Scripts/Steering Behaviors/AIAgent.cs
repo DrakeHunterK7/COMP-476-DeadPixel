@@ -20,8 +20,8 @@ namespace AI
         // -1 for backwards
         private int _applyForwardSpeed = 1;
 
-        [HideInInspector]
-        public Vector3 position;
+        //[HideInInspector]
+        //public Vector3 position;
         [HideInInspector]
         public Vector3 forward;
 
@@ -50,7 +50,7 @@ namespace AI
             _activeMovements = new List<AIMovement>();
             _activeForwardSpeed = 15.0f;
 
-            position = transform.position;
+            //position = transform.position;
             _activeMovements.Add(gameObject.GetComponent<Pursue>());
 
     }
@@ -74,7 +74,7 @@ namespace AI
             transform.position += _velocity * Time.deltaTime;
 
             // Orientate the ai to where we want them to go to
-            transform.rotation = Quaternion.Slerp(transform.rotation, steering._rotation, Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, steering._rotation, _maxAngularRotationSpeed *  Time.deltaTime);
         }
 
         // Calculates the blend of movements that act on the agent
@@ -83,9 +83,12 @@ namespace AI
             Vector3 _velocityBlend = Vector3.zero;
             Quaternion _rotationBlend = Quaternion.identity;
 
-            
+            // TESTING
+            _activeMovements.Add(gameObject.GetComponent<ObstacleAvoidance>());
+
+
             // Blend the movements together by weight
-            foreach(AIMovement movement in _activeMovements)
+            foreach (AIMovement movement in _activeMovements)
             {
                 if(movement != null)
                 {
@@ -100,9 +103,12 @@ namespace AI
                         _velocityBlend += Vector3.ClampMagnitude(v, _maxForwardSpeed) * movement.weight; // add the movement to the kinematic blend with its weight
                     }
 
-                    if(q != Quaternion.identity) // Blends Rotation components together
+                    if(q != Quaternion.identity && gameObject.GetComponent<ObstacleAvoidance>()._avoidingCollision == false) // Blends Rotation components together
                     {
-                        Debug.Log("Rotation Should Be Applied");
+                        _rotationBlend *= q;
+                    }
+                    else if(gameObject.GetComponent<ObstacleAvoidance>()._avoidingCollision == true && movement == gameObject.GetComponent<ObstacleAvoidance>())
+                    {
                         _rotationBlend *= q;
                     }
                     

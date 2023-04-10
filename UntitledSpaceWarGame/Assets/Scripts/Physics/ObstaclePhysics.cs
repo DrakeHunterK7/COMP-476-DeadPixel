@@ -16,13 +16,13 @@ public class ObstaclePhysics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Random.InitState(Time.frameCount);
+        Random.InitState((int) System.DateTime.Now.Millisecond);
 
         float x_rotation = Random.Range(0.0f, 1.0f);
         float y_rotation = Random.Range(0.0f, 1.0f);
         float z_rotation = Random.Range(0.0f, 1.0f);
 
-        //_rotation = new Vector3(x_rotation, y_rotation, z_rotation).normalized / _mass;
+        _rotation = new Vector3(x_rotation, y_rotation, z_rotation).normalized / _mass;
     }
 
     // Update is called once per frame
@@ -30,7 +30,11 @@ public class ObstaclePhysics : MonoBehaviour
     {
         _currentSpeed = Mathf.Lerp(_currentSpeed, _velocity.normalized.magnitude * _maxSpeed, _accelerationRate * Time.deltaTime);
 
-        transform.position += _velocity.normalized * _currentSpeed * Time.deltaTime;
-        transform.Rotate(_rotation, Space.World);
+        if (Vector3.Magnitude(_velocity.normalized * _currentSpeed * Time.deltaTime) < Mathf.Infinity)
+        {
+            transform.position += _velocity.normalized * _currentSpeed * Time.deltaTime;
+            transform.Rotate(_rotation, Space.World);
+        }
+        
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,10 @@ public class ShipController : MonoBehaviour
     public GameObject _bulletPrefab;
     public GameObject _laserPrefab;
     private bool _weaponChanged = false;
+
+    public Vector3 velocity;
+
+    public ShipInformation shipInformation;
 
 
     //Weapon UI References
@@ -52,6 +57,7 @@ public class ShipController : MonoBehaviour
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
+        shipInformation = new ShipInformation();
     }
 
     private void Start()
@@ -62,6 +68,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawLine(transform.position, transform.position + transform.forward*100f, Color.yellow, 0.1f);
         // Look rotation calculations
         _lookInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
@@ -81,6 +88,7 @@ public class ShipController : MonoBehaviour
 
 
         // Apply Transformation
+        velocity = transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
         transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
@@ -130,13 +138,17 @@ public class ShipController : MonoBehaviour
             //TODO: Add a laser prefab
             var b = Instantiate(_laserPrefab, _shootpoint.transform.position, Quaternion.identity);
             //var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            b.GetComponent<Projectile>().direction = forwarddir;
+            var projScript = b.GetComponent<Projectile>();
+            projScript.direction = forwarddir;
+            projScript.ownerShip = gameObject;
         }
         else
         {
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
-            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            b.GetComponent<Projectile>().direction = forwarddir;
+            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, gameObject.transform.rotation);
+            var projScript = b.GetComponent<Projectile>();
+            projScript.direction = forwarddir;
+            projScript.ownerShip = gameObject;
         }
         
     }

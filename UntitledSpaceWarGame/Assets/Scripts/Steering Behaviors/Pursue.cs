@@ -4,6 +4,11 @@ using UnityEngine;
 
 using AI;
 
+/* THIS SCRIPT IS USED FOR DYNAMIC MOVEMENTS
+ * SHOULD BE USED WHEN CHASING PLAYER OR OTHER AI ENTITIES
+ * 
+ */
+
 public class Pursue : AIMovement
 {
     public Transform _target;
@@ -21,7 +26,20 @@ public class Pursue : AIMovement
 
         // Get Target velocity
         AIAgent targetAgent = _target.GetComponent<AIAgent>();
-        Vector3 targetVelocity = targetAgent._velocity;
+        ShipController targetPlayer = null;
+
+        Vector3 targetVelocity = Vector3.zero; //targetAgent._velocity;
+        
+        if (targetAgent == null)
+        {
+            targetPlayer = _target.GetComponent<ShipController>();
+            targetVelocity = targetPlayer.velocity;
+        }
+        else
+        {
+            targetVelocity = targetAgent._velocity;
+        }
+
 
         // Calculate orientation of agent
         Vector3 targetFuturePosition = _target.transform.position + targetVelocity * _lookAheadTime;

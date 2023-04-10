@@ -141,11 +141,12 @@ public class AStarPathfinding
         
         var nearestGraphPosition = nearestGraphNode.gameObject.transform.position;
         var firstNode = new PathNode(nearestGraphPosition);
+        firstNode.graphNode = nearestGraphNode;
         firstNode.gCost = Vector3.Magnitude(pathfinder.transform.position-nearestGraphPosition);
-        firstNode.hCost = EuclidianDistance(nearestGraphPosition);
+        firstNode.hCost = EuclidianDistance(nearestGraphPosition) + firstNode.graphNode.hotCost;
         firstNode.fCost = firstNode.gCost + firstNode.hCost;
         firstNode.previousNode = null;
-        firstNode.graphNode = nearestGraphNode;
+        
         
         openList.Add(firstNode);
 
@@ -163,10 +164,11 @@ public class AStarPathfinding
                 {
                     var newNode = new PathNode(neighborPosition);
                     newNode.previousNode = topNode;
-                    newNode.gCost = topNode.gCost + Vector3.Magnitude(topNode.worldPosition - neighborPosition);
-                    newNode.hCost = EuclidianDistance(neighborPosition);
-                    newNode.fCost = newNode.gCost + firstNode.hCost;
                     newNode.graphNode = neighbor;
+                    newNode.gCost = topNode.gCost + Vector3.Magnitude(topNode.worldPosition - neighborPosition);
+                    newNode.hCost = EuclidianDistance(neighborPosition) + newNode.graphNode.hotCost;
+                    newNode.fCost = newNode.gCost + firstNode.hCost;
+                    
                     
                     var calculatedPath = CalculatePath(newNode);
                     return calculatedPath;
@@ -175,10 +177,11 @@ public class AStarPathfinding
                 {
                     var newNode = new PathNode(neighborPosition);
                     newNode.previousNode = topNode;
-                    newNode.gCost = topNode.gCost + Vector3.Magnitude(topNode.worldPosition - neighborPosition);
-                    newNode.hCost = EuclidianDistance(neighborPosition);
-                    newNode.fCost = newNode.gCost + firstNode.hCost;
                     newNode.graphNode = neighbor;
+                    newNode.gCost = topNode.gCost + Vector3.Magnitude(topNode.worldPosition - neighborPosition);
+                    newNode.hCost = EuclidianDistance(neighborPosition) + newNode.graphNode.hotCost;
+                    newNode.fCost = newNode.gCost + firstNode.hCost;
+                    
 
                     var shouldAdd = openList.All(node => node.worldPosition != newNode.worldPosition);
 
