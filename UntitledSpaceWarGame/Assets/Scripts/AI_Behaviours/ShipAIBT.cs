@@ -8,13 +8,11 @@ public class ShipAIBT : Tree
 {
     public List<UnityEngine.Transform> _waypoints;
 
-    //Static variables for the nodes to reference
-    public static float speed = 100f;
-    public static float fovRange = 6f;
-    public static float attackRange = 3f;
+    public ShipInformation shipInformation;
 
     protected override Node SetupTree()
     {
+        shipInformation = new ShipInformation(1, 2);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
@@ -27,9 +25,16 @@ public class ShipAIBT : Tree
                         new CheckDistanceFromThreat(this),
                         new Task_Evade(this)
                     }),
-                    new Sequence(new List<Node> //This is where a ship attacks
+                    new Selector(new List<Node>
                     {
-                        new Task_Chase(this)
+                        new Sequence(new List<Node>
+                        {
+                            new Task_Chase(this)
+                        }),
+                        new Sequence(new List<Node> //This is where a ship attacks
+                        {
+                            new Task_Chase(this)
+                        })
                     })
                 })
             }),

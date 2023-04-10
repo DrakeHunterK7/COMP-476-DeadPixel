@@ -5,19 +5,19 @@ using UnityEngine;
 public class ShipInformation
 {
     //Speed Variables
-    private float _attackSpeed;
-    private float _movementSpeed;
+    public float _attackSpeed;
+    public float _movementSpeed;
 
     //Attack Variables
-    private float _attackStrength;
+    public float _attackStrength;
 
     //Defense Variables
-    private float _hp;
-    private float _shieldHp;
+    public float _hp;
+    public float _shieldHp;
 
     //Team and Ship Selection Variables
-    private int _team;
-    private int _shipType;
+    public int _team;
+    public int _shipType;
 
     //Default Player Constructor
     public ShipInformation()

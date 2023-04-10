@@ -1,4 +1,5 @@
-﻿using BehaviourTree;
+﻿using AI;
+using BehaviourTree;
 using UnityEngine;
 
 namespace AI_Behaviours
@@ -6,27 +7,32 @@ namespace AI_Behaviours
     public class GoBackInBounds : Node
     {
         private ShipAIBT ownerShip;
+        private Seek seekMovement;
+        private AIAgent ownerAgent;
 
         public GoBackInBounds(ShipAIBT owner)
         {
             ownerShip = owner;
+            seekMovement = owner.GetComponent<Seek>();
+            ownerAgent = owner.GetComponent<AIAgent>();
         }
 
         public override NodeState Evaluate()
         {
-            GameObject target = (GameObject) ownerShip.GetRootData("Target");
+            GameObject mothership = (GameObject) ownerShip.GetRootData("Mothership");
 
-            if (target != null)
+            if (mothership != null)
             {
-                state = NodeState.SUCCESS;
-                return state;
+                seekMovement.SetTargetPosition(mothership.transform.position);
             }
+            else
+            {
+                seekMovement.SetTargetPosition(Vector3.zero);
+            }
+            
+            ownerAgent.SetActiveMovement(seekMovement);
 
-
-
-
-
-            state = NodeState.FAILURE;
+            state = NodeState.RUNNING;
             return state;
         }
     }

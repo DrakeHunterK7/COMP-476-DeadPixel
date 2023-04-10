@@ -1,4 +1,5 @@
-﻿using BehaviourTree;
+﻿using AI;
+using BehaviourTree;
 using UnityEngine;
 
 namespace AI_Behaviours
@@ -14,17 +15,15 @@ namespace AI_Behaviours
 
         public override NodeState Evaluate()
         {
-            GameObject target = (GameObject) ownerShip.GetRootData("Target");
+            var ownerPosition = ownerShip.transform.position;
 
-            if (target != null)
+            if (ownerPosition.x < -10000 || ownerPosition.x > 10000
+                || ownerPosition.y < -10000 || ownerPosition.y > 10000
+                || ownerPosition.z < -10000 || ownerPosition.z > 10000)
             {
                 state = NodeState.SUCCESS;
                 return state;
             }
-
-
-
-
 
             state = NodeState.FAILURE;
             return state;

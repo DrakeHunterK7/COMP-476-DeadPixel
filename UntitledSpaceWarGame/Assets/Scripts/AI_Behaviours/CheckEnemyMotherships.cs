@@ -14,13 +14,13 @@ namespace AI_Behaviours
 
         public override NodeState Evaluate()
         {
-            GameObject target = (GameObject) ownerShip.GetRootData("Target");
-
-            if (target != null)
-            {
-                state = NodeState.SUCCESS;
-                return state;
-            }
+            // GameObject target = (GameObject) ownerShip.GetRootData("Target");
+            //
+            // if (target != null)
+            // {
+            //     state = NodeState.SUCCESS;
+            //     return state;
+            // }
             
 
             state = NodeState.FAILURE;

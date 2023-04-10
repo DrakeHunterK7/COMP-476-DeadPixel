@@ -29,11 +29,11 @@ public class CheckForAttackRange : Node
 
         Transform target = (Transform)t;
 
-        if (Vector3.Distance(owner.transform.position, target.position) <= ShipAIBT.attackRange)
-        {
-            state = NodeState.SUCCESS;
-            return state;
-        }
+        // if (Vector3.Distance(owner.transform.position, target.position) <= ShipAIBT.attackRange)
+        // {
+        //     state = NodeState.SUCCESS;
+        //     return state;
+        // }
 
         state = NodeState.FAILURE;
         return state;

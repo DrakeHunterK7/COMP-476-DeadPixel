@@ -66,7 +66,7 @@ public class PatrolNearMothership : Node
                 }
                 else
                 {
-                    owner.transform.position = Vector3.MoveTowards(owner.transform.position, wp, ShipAIBT.speed * Time.deltaTime);
+                    owner.transform.position = Vector3.MoveTowards(owner.transform.position, wp, owner.shipInformation._movementSpeed * Time.deltaTime);
                     owner.transform.LookAt(wp);
                 }
             }

@@ -30,6 +30,8 @@ public class ShipController : MonoBehaviour
 
     public Vector3 velocity;
 
+    public ShipInformation shipInformation;
+
 
     //Weapon UI References
     [Header ("Weapon UI References")]
@@ -51,6 +53,7 @@ public class ShipController : MonoBehaviour
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
+        shipInformation = new ShipInformation();
     }
 
     // Update is called once per frame
