@@ -28,7 +28,7 @@ public class ShipAIBT : Tree
                 new GoToTarget(transform),
             }),
             //Patrolling is the fallback option if no enemy is in range
-            new Patrol(transform, pathfinder),
+            //new Patrol(transform, pathfinder),
         });
 
         return root;
