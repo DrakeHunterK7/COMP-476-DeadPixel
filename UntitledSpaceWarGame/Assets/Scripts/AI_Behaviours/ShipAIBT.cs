@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using AI_Behaviours;
 using BehaviourTree;
 using Unity.VisualScripting;
+using UnityEngine;
 using Sequence = BehaviourTree.Sequence;
+using Tree = BehaviourTree.Tree;
 
 public class ShipAIBT : Tree
 {
@@ -12,9 +14,14 @@ public class ShipAIBT : Tree
 
     protected override Node SetupTree()
     {
-        shipInformation = new ShipInformation(1, 2);
+        shipInformation = new ShipInformation(Random.Range(0, 3), 2);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
+            new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
+            {
+                new CheckOutOfBounds(this),
+                new GoBackInBounds(this)
+            }),
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
                 new CheckDirectThreats(this),
@@ -25,52 +32,15 @@ public class ShipAIBT : Tree
                         new CheckDistanceFromThreat(this),
                         new Task_Evade(this)
                     }),
-                    new Selector(new List<Node>
-                    {
-                        new Sequence(new List<Node>
-                        {
-                            new Task_Chase(this)
-                        }),
-                        new Sequence(new List<Node> //This is where a ship attacks
-                        {
-                            new Task_Chase(this)
-                        })
-                    })
+                    new Task_Chase(this)
                 })
             }),
-            new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
-            {
-                new CheckOutOfBounds(this),
-                new GoBackInBounds(this)
-            }),
-            // new Sequence(new List<Node>  
-            // { 
-            //     new CheckMothershipStatus(this), 
-            //     new CheckEnemyCountNearMothership(this),
-            //     new Sequence(new List<Node>
-            //         {
-            //             new GoToMothership(this),
-            //             new CheckForAttackRange(this),
-            //             new PatrolNearMothership(this, pathfinder)
-            //         }
-            //     )
-            // }),
             new Sequence(new List<Node>
             { 
                 new CheckTeammateInNeed(this),
                 new HelpTeammate(this)
             }),
-            new Sequence(new List<Node>
-            { 
-                new CheckEnemyInFOV(this),
-                new Sequence(new List<Node>
-                    {
-                        new Task_GoToTarget(this),
-                        new CheckForAttackRange(this),
-                        new Attack(this)
-                    }
-                )
-            }),
+            new CheckEnemyInFOV(this),
             new Sequence(new List<Node>
             { 
                 new CheckEnemyMotherships(this),
@@ -98,5 +68,19 @@ public class ShipAIBT : Tree
     {
         return root.GetData(key);
     }
+
+    public ShipInformation GetShipData()
+    {
+        return shipInformation;
+    }
+
+    public void SetShipDate(int team, int shipType)
+    {
+        shipInformation = new ShipInformation(team, shipType);
+    }
     
+    // public void SetShipDate(ShipInformation newShipInfo)
+    // {
+    //     shipInformation = new ShipInformation(newShipInfo);
+    // }
 }
