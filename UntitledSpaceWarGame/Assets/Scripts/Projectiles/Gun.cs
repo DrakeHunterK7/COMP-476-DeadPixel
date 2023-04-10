@@ -6,12 +6,17 @@ public class Gun : Projectile
 {
     private float bulletspeed = 1000f;
 
+    private List<Collider> damageableentities = new List<Collider>();
+
     private Vector3 startpos;
+
+   private Collider collider;
     // Start is called before the first frame update
     void Start()
     {
         startpos = transform.position;
-        
+        collider = gameObject.GetComponent<Collider>();
+
     }
 
     // Update is called once per frame
@@ -24,17 +29,42 @@ public class Gun : Projectile
             Destroy(this.gameObject);
         }
 
-        RaycastHit hit;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100f);
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 50f, ~LayerMask.GetMask("Projectiles")))
+        if (hitColliders.Length > 0)
         {
-            Debug.Log("RUNNING");
-            if (hit.collider.gameObject.CompareTag("AI"))
+            foreach (var hitCollider in hitColliders)
             {
-                Debug.Log("GONNA HIT");
-                var shipScript = hit.collider.gameObject.GetComponent<ShipAIBT>();
-                shipScript.SetRootData("Target", ownerShip);
+                if (hitCollider.gameObject.CompareTag("AI") || hitCollider.gameObject.CompareTag("Player"))
+                {
+                    if (!damageableentities.Contains(hitCollider))
+                    damageableentities.Add(hitCollider);
+                }
             }
-        };
+        }
+
+        if (damageableentities.Count > 0)
+        {
+            foreach (Collider entity in damageableentities)
+            {
+                if (entity != null)
+                {
+                    if (collider.bounds.Intersects(entity.bounds))
+                    {
+                        Debug.Log("Has been hit");
+                        Destroy(this.gameObject);
+                    }
+                }
+                else
+                {
+                    damageableentities.Remove(entity);
+                    break;
+                }
+            }
+        }
+
+
+
+
     }
 }

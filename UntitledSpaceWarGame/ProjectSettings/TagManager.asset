@@ -7,10 +7,7 @@ TagManager:
   - Selectable
   - TrackingObject
   - Actors
-  - Enemy
   - AI
-  - Obstacle
-  - CharacterData
   layers:
   - Default
   - TransparentFX
@@ -19,8 +16,8 @@ TagManager:
   - Water
   - UI
   - Ships
-  - Projectiles
-  - Obstacles
+  - 
+  - 
   - 
   - 
   - 
