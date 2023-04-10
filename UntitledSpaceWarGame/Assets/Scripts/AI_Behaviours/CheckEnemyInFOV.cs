@@ -7,7 +7,7 @@ namespace AI_Behaviours
     {
         private ShipAIBT ownerShip;
         private float radius = 2000;
-        private float angle = 180;
+        private float angle = 120;
 
         public CheckEnemyInFOV(ShipAIBT owner)
         {
@@ -17,13 +17,7 @@ namespace AI_Behaviours
         public override NodeState Evaluate()
         {
             GameObject target = CheckFOV();
-
-            // if (target != null)
-            // {
-            //     state = NodeState.SUCCESS;
-            //     return state;
-            // }
-
+            
             state = NodeState.FAILURE;
             return state;
         }
@@ -37,14 +31,12 @@ namespace AI_Behaviours
 
             for (var i = 0; i < hitCount; i++)
             {
-                Debug.Log("A ship is near!");
-                Debug.Log(colliders[i].gameObject.name);
                 var vectorToTarget = (colliders[i].transform.position - ownerShip.transform.position);
                 var directionToTarget = vectorToTarget.normalized;
 
                 var angleToTarget = Vector3.Angle(directionToTarget, ownerShip.transform.forward);
 
-                if ( angleToTarget >= -angle && angleToTarget <= angle)
+                if ( (angleToTarget >= -angle && angleToTarget <= angle) || vectorToTarget.magnitude <= radius/6)
                 {
                     var ray1 = new Ray(ownerShip.transform.position, directionToTarget);
                     RaycastHit hitData1;
@@ -53,7 +45,7 @@ namespace AI_Behaviours
                     {
                         var agent = hitData1.collider.gameObject;
 
-                        var agentScript = agent.GetComponentInParent<ShipAIBT>();
+                        var agentScript = agent.GetComponent<ShipAIBT>();
 
                         if (agentScript != null)
                         {
@@ -66,7 +58,7 @@ namespace AI_Behaviours
                         }
                         else
                         {
-                            var playerScript = agent.GetComponentInParent<ShipController>();
+                            var playerScript = agent.GetComponent<ShipController>();
                             
                             if (playerScript.shipInformation._team != ownerShip.shipInformation._team)
                             {
@@ -81,7 +73,7 @@ namespace AI_Behaviours
                     }
                 }
             }
-
+            
             return target;
         }
     }
