@@ -56042,6 +56042,39 @@ Transform:
   m_Father: {fileID: 85465345}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1574893566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8440520497958951740, guid: 238e95270b61e7c48aff9850ccfbf7fe, type: 3}
+  m_PrefabInstance: {fileID: 8440520497121940752}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1574893567 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8440520498528972838, guid: 238e95270b61e7c48aff9850ccfbf7fe, type: 3}
+  m_PrefabInstance: {fileID: 8440520497121940752}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1574893568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8440520498258260608, guid: 238e95270b61e7c48aff9850ccfbf7fe, type: 3}
+  m_PrefabInstance: {fileID: 8440520497121940752}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1583063878
 GameObject:
   m_ObjectHideFlags: 0
@@ -57094,9 +57127,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _hpBar
+      value: 
+      objectReference: {fileID: 1574893568}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _energyBar
+      value: 
+      objectReference: {fileID: 1574893566}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _laserIcon
       value: 
       objectReference: {fileID: 8440520497121940755}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _shieldBar
+      value: 
+      objectReference: {fileID: 1574893567}
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _missileIcon
       value: 

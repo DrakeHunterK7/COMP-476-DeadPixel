@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 public class ShipController : MonoBehaviour
 {
@@ -38,6 +37,9 @@ public class ShipController : MonoBehaviour
     //Ship Information
     private ShipInformation _shipData;
 
+    //Health and Energy Bar References
+    [Header("Health Bar Reference")]
+    [SerializeField] private HealthBar _healthBar;
 
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
@@ -46,11 +48,15 @@ public class ShipController : MonoBehaviour
 
     private Vector2 _lookInput, _centerOfScreen, _mouseDistance;
 
-    // Start is called before the first frame update
     void Awake()
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
+    }
+
+    private void Start()
+    {
+        //Set HP Values
     }
 
     // Update is called once per frame
@@ -133,6 +139,11 @@ public class ShipController : MonoBehaviour
             b.GetComponent<Projectile>().direction = forwarddir;
         }
         
+    }
+
+    public void TakeDamage(float AttackForce)
+    {
+        _shipData.TakeDamage(AttackForce);
     }
 
     public ShipInformation GetShipData()
