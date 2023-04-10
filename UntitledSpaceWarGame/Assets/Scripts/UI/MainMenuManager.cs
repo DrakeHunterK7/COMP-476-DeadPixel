@@ -14,6 +14,7 @@ public class MainMenuManager : MonoBehaviour
 
     //Player Data Reference
     private ShipInformation _playerData;
+    private ShipController _playerRef;
 
     //Camera Reference and Variables
     private CameraMovementMenu _camera;

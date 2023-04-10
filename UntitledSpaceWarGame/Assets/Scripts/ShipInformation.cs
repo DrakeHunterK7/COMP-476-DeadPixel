@@ -32,7 +32,7 @@ public class ShipInformation
 
         //Speed
         _attackSpeed = 15f;
-        _movementSpeed = 15f;
+        _movementSpeed = 100f;
 
         //Defense
         _hp = 100f;
@@ -75,13 +75,13 @@ public class ShipInformation
                 break;
         }
 
-        //Ship Stats: Attack = 15 * multiplier ; Speed = 15 * multiplier ; Defense = 15 * multiplier
+        //Ship Stats: Attack = 15 * multiplier ; Speed = 100 * multiplier ; Defense = 15 * multiplier
         //Attack
         _attackStrength = 15f * attackMultiplier;
 
         //Speed
         _attackSpeed = 15f * speedMultiplier;
-        _movementSpeed = 15f * speedMultiplier;
+        _movementSpeed = 100f * speedMultiplier;
 
         //Defense
         _hp = 100f;
@@ -138,6 +138,16 @@ public class ShipInformation
         //Defense
         _hp = 100f;
         _shieldHp = 50f * defenseMultiplier;
+    }
+
+    public int GetTeam()
+    {
+        return _team;
+    }
+
+    public int GetShipType()
+    {
+        return _shipType;
     }
 
     public override string ToString()
