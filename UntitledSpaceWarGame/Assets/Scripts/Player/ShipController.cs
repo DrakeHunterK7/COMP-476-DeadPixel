@@ -144,13 +144,13 @@ public class ShipController : MonoBehaviour
             laserLine.SetPosition(0, _shootpoint.transform.position);
             laserLine.enabled = true;
             RaycastHit hit;
-            if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 500f))
+            if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 1000f))
             {
                 laserLine.SetPosition(1, hit.point);
             }
             else
             {
-                laserLine.SetPosition(1, _shootpoint.transform.position + (forwarddir * 500f));
+                laserLine.SetPosition(1, _shootpoint.transform.position + (forwarddir * 1000f));
             }
 
         }
