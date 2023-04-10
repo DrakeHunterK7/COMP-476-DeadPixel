@@ -85,6 +85,7 @@ public class ShipController : MonoBehaviour
 
         if (!_weaponChanged)
         {
+            laserLine.enabled = false;
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 Shoot();
