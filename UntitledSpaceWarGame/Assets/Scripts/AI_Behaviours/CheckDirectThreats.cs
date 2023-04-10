@@ -5,19 +5,18 @@ using BehaviourTree;
 public class CheckDirectThreats : Node
 {
     private ShipAIBT owner;
-    private ShipAIBT BT;
     public CheckDirectThreats(ShipAIBT ownerShip)
     {
         owner = ownerShip;
-        BT = owner.gameObject.GetComponent<ShipAIBT>();
     }
 
     public override NodeState Evaluate()
     {
-        var willbehit = BT.GetRootData("Target");
+        var willbehit = owner.GetRootData("Target");
 
         if (willbehit != null)
         {
+            Debug.Log("Threat!");
             state = NodeState.SUCCESS;
             return state;
         }

@@ -27,7 +27,7 @@ public class Task_Evade : Node
         if (target != null)
         {
             //WRITE EVADE CODE HERE
-            
+            Debug.Log("Evading!!");
             evadeMovement.SetTarget(target.transform);
             ownerAgent.SetActiveMovement(evadeMovement);
         }

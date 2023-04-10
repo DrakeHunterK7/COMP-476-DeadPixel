@@ -126,13 +126,17 @@ public class ShipController : MonoBehaviour
             //TODO: Add a laser prefab
             var b = Instantiate(_laserPrefab, _shootpoint.transform.position, Quaternion.identity);
             //var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            b.GetComponent<Projectile>().direction = forwarddir;
+            var projScript = b.GetComponent<Projectile>();
+            projScript.direction = forwarddir;
+            projScript.ownerShip = gameObject;
         }
         else
         {
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
-            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            b.GetComponent<Projectile>().direction = forwarddir;
+            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, gameObject.transform.rotation);
+            var projScript = b.GetComponent<Projectile>();
+            projScript.direction = forwarddir;
+            projScript.ownerShip = gameObject;
         }
         
     }

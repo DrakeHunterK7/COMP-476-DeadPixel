@@ -15,12 +15,15 @@ namespace AI_Behaviours
         public override NodeState Evaluate()
         {
             GameObject target = (GameObject) ownerShip.GetRootData("Target");
+            
+            Debug.Log(target);
 
             if (target != null)
             {
                 if(Vector3.Distance(target.transform.position, ownerShip.transform.position) < 250
                    && Vector3.Dot(target.transform.forward, (ownerShip.transform.position - target.transform.position)) > 0.8f)
                 {
+                    Debug.Log("Evading!!");
                     state = NodeState.SUCCESS;
                     return state;
                 }
