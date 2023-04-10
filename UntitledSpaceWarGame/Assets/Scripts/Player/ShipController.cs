@@ -43,11 +43,14 @@ public class ShipController : MonoBehaviour
 
     private Vector2 _lookInput, _centerOfScreen, _mouseDistance;
 
+    private LineRenderer laserLine;
+
     // Start is called before the first frame update
     void Start()
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
+        laserLine = gameObject.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -79,14 +82,29 @@ public class ShipController : MonoBehaviour
         // Apply Rotation
         transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+
+        if (!_weaponChanged)
         {
-            Shoot();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+            else
+            {
+                laserLine.enabled = false;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            ChangeWeapon();
+            _weaponChanged = !_weaponChanged;
         }
 
     }
@@ -119,15 +137,30 @@ public class ShipController : MonoBehaviour
         if (_weaponChanged)
         {
             //TODO: Add a laser prefab
-            var b = Instantiate(_laserPrefab, _shootpoint.transform.position, Quaternion.identity);
-            //var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            b.GetComponent<Projectile>().direction = forwarddir;
+            //var b = Instantiate(_laserPrefab, _shootpoint.transform.position, transform.rotation);
+            ////var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
+            //b.GetComponent<Projectile>().direction = forwarddir;
+            
+            laserLine.SetPosition(0, _shootpoint.transform.position);
+            laserLine.enabled = true;
+            RaycastHit hit;
+            if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 500f))
+            {
+                laserLine.SetPosition(1, hit.point);
+            }
+            else
+            {
+                laserLine.SetPosition(1, _shootpoint.transform.position + (forwarddir * 500f));
+            }
+
         }
         else
         {
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
-            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
+            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
             b.GetComponent<Projectile>().direction = forwarddir;
+
+
         }
         
     }

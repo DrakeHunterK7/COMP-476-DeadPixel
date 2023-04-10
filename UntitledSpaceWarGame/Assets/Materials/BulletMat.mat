@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LaserMat
+  m_Name: BulletMat
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
   - _EMISSION
@@ -107,9 +107,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 1, b: 0.93933177, a: 0.54901963}
-    - _Color: {r: 0, g: 1, b: 0.93933177, a: 0.54901963}
-    - _EmissionColor: {r: 0, g: 1.2120541, b: 5.646398, a: 1}
+    - _BaseColor: {r: 0.99215686, g: 0.45213038, b: 0, a: 0.54901963}
+    - _Color: {r: 0.9921568, g: 0.45213032, b: 0, a: 0.54901963}
+    - _EmissionColor: {r: 18.740065, g: 1.157604, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2340597578485095376
