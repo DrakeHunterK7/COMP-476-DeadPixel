@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 using BehaviourTree;
 
-public class Task_Chase : Node
+public class  Task_Chase : Node
 {
     private ShipAIBT owner;
-    private ShipAIBT BT;
+    private Pursue chaseMovement;
+    private AIAgent ownerAgent;
 
     public Task_Chase(ShipAIBT ownerShip)
     {
         owner = ownerShip;
+        chaseMovement = owner.GetComponent<Pursue>();
+        ownerAgent = owner.GetComponent<AIAgent>();
     }
 
     public override NodeState Evaluate()
@@ -20,6 +24,10 @@ public class Task_Chase : Node
         if (target != null)
         {
             //WRITE CHASE CODE HERE
+            
+            chaseMovement.SetTarget(target.transform);
+            ownerAgent.SetActiveMovement(chaseMovement);
+            
         }
 
 

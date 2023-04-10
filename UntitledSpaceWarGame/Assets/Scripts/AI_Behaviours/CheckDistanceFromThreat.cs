@@ -18,7 +18,8 @@ namespace AI_Behaviours
 
             if (target != null)
             {
-                if(Vector3.Distance(target.transform.position, ownerShip.transform.position) < 2500)
+                if(Vector3.Distance(target.transform.position, ownerShip.transform.position) < 250
+                   && Vector3.Dot(target.transform.forward, (ownerShip.transform.position - target.transform.position)) > 0.8f)
                 {
                     state = NodeState.SUCCESS;
                     return state;

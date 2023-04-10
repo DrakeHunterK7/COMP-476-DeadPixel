@@ -9487,6 +9487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1944600851465096185, guid: b05cdf0e43a146a4ca99a9c6da549564, type: 3}
+      propertyPath: _forwardSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6748412765512352562, guid: b05cdf0e43a146a4ca99a9c6da549564, type: 3}
       propertyPath: m_Name
       value: Player
@@ -73409,6 +73413,73 @@ Transform:
   m_Father: {fileID: 770469527}
   m_RootOrder: 882
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2057456594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6748412765512352562, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
+  m_PrefabInstance: {fileID: 1309274759}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2057456597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057456594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7798bb946344864cbb4a2c182a5bfb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2057456598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057456594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bd7c0864b65074281953e5db0c2b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
+  _target: {fileID: 0}
+--- !u!114 &2057456599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057456594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 829063142162888449fc013023bdf4b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
+  _target: {fileID: 0}
+--- !u!114 &2057456600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057456594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70d5548e3b6cb94fb75e2cce2f0a236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxForwardSpeed: 110
+  _maxAngularRotationSpeed: 0
+  position: {x: 0, y: 0, z: 0}
+  forward: {x: 0, y: 0, z: 0}
+  _velocity: {x: 0, y: 0, z: 0}
+  freezeMovement: 0
+  _activeMovements: []
+  debugSteering: 0
 --- !u!1 &2060509058
 GameObject:
   m_ObjectHideFlags: 0

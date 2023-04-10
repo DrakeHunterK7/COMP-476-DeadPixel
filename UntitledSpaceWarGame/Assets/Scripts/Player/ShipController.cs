@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 
@@ -17,6 +18,8 @@ public class ShipController : MonoBehaviour
     private float _activeForwardSpeed;
     private float _activeStrafeSpeed;
     private float _activeHoverSpeed;
+
+    public Vector3 velocity;
 
 
 
@@ -43,6 +46,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawLine(transform.position, transform.position + transform.forward*100f, Color.yellow, 0.1f);
         // Look rotation calculations
         _lookInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
@@ -62,6 +66,7 @@ public class ShipController : MonoBehaviour
 
 
         // Apply Transformation
+        velocity = transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
         transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
