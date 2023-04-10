@@ -51,6 +51,7 @@ MonoBehaviour:
   _countdownUI: {fileID: 0}
   _countdownText: {fileID: 0}
   _playerModel: {fileID: 0}
+  _aiModel: {fileID: 6748412765512352562, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
   _motherships:
   - {fileID: 0}
   - {fileID: 0}
@@ -76,3 +77,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _teamColor: {r: 0.5882353, g: 1, b: 1, a: 0.5882353}
+  _enemyColor: {r: 1, g: 0.49019608, b: 0.49019608, a: 0.5882353}

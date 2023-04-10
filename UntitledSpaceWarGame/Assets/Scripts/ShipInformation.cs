@@ -87,6 +87,24 @@ public class ShipInformation
         _hp = 100f;
         _shieldHp = 50f * defenseMultiplier;
     }
+
+    public ShipInformation(ShipInformation shipData)
+    {
+        _team = shipData._team;
+        _shipType = shipData._shipType;
+
+        //Attack
+        _attackStrength = shipData._attackStrength;
+
+        //Speed
+        _attackSpeed = shipData._attackSpeed;
+        _movementSpeed = shipData._movementSpeed;
+
+        //Defense
+        _hp = shipData._hp;
+        _shieldHp = shipData._shieldHp;
+    }
+
     public void SetTeam(int team)
     {
         _team = team;

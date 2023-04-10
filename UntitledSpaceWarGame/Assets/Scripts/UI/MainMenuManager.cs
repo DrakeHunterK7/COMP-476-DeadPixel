@@ -6,34 +6,38 @@ using UnityEngine.EventSystems;
 public class MainMenuManager : MonoBehaviour
 {
     //UI References
+    [Header ("UI References")]
     [SerializeField] private GameObject _mainMenu;
     [SerializeField] private GameObject _controlScreen;
     [SerializeField] private GameObject _teamSelection;
     [SerializeField] private GameObject _shipSelection;
     [SerializeField] private GameObject _mapSelection;
 
-    //Player Data Reference
-    private ShipInformation _playerData;
-    private ShipController _playerRef;
-
     //Camera Reference and Variables
+    [Header ("Camera Variables")]
     private CameraMovementMenu _camera;
     [SerializeField] private Camera _cameraObject;
     [SerializeField] private GameObject[] _cameraPositions;
     //_cameraPositions = { mainMenu, teamSelection, shipSelection_1, shipSelection_2, shipSelection_3, mapSelection }
 
     //GameObject References
+    [Header ("Model References")]
     [SerializeField] private GameObject[] _motherships;
     [SerializeField] private GameObject[] _ships;
     [SerializeField] private GameObject _shipSelected;
 
-    //Selection Variables
+    //Player Selection Variables
+    private PlayerData _player;
+    private ShipInformation _playerData;
     private int _teamSelected;
     private int _shipTypeSelected;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (Time.timeScale == 0) Time.timeScale = 1; //Fix time if frozen
+
+        _player = GameObject.FindGameObjectsWithTag("CharacterData")[0].GetComponent<PlayerData>();
         _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovementMenu>();
         _playerData = new ShipInformation();
     }
@@ -163,6 +167,8 @@ public class MainMenuManager : MonoBehaviour
 
         //Update Player Data
         _playerData.SetShipType(_shipTypeSelected);
+        _player.SetShipData(_playerData);
+        Debug.Log(_player.GetShipData());
 
         //Reveal Ship Selected Model
         _shipSelected.transform.GetChild(_teamSelected).gameObject.SetActive(true);

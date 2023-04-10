@@ -22,8 +22,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Text _countdownText;
 
     //Player Reference
-    [Header ("Player Reference")]
+    [Header ("Agent Model")]
     [SerializeField] private GameObject _playerModel;
+    [SerializeField] private GameObject _aiModel;
     private ShipInformation _player;
 
     //Team Positions
@@ -33,17 +34,31 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform[] _allyPositions;
     [SerializeField] private Transform[] _enemyPositions_1;
     [SerializeField] private Transform[] _enemyPositions_2;
+    [SerializeField] private Color _teamColor;
+    [SerializeField] private Color _enemyColor;
+
+    //Debug Team/Ship Choice
+    [Header("Manual Team/Ship Selection")]
+    [SerializeField] private int _teamSelected;
+    [SerializeField] private int _shipTypeSelected;
 
     // Start is called before the first frame update
     void Start()
     {
         if (Time.timeScale == 1) Time.timeScale = 0;
 
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipController>().GetShipData();
+        if (GameObject.FindGameObjectsWithTag("CharacterData").Length == 0)
+        {
+            _player = new ShipInformation(_teamSelected, _shipTypeSelected);
+        }
+        else
+            _player = GameObject.FindGameObjectsWithTag("CharacterData")[0].GetComponent<PlayerData>().GetShipData();
 
-        UpdatePlayerModel();
+        _playerModel.GetComponent<ShipController>().SetShipData(_player);
+
+        UpdateAgentModel(_playerModel, true);
         UpdateTeamPositions();
-        SpawnPlayers();
+        SpawnAgents();
         StartCountdown();
         StartGame();
     }
@@ -55,41 +70,91 @@ public class LevelManager : MonoBehaviour
             UpdateGameTimer();
     }
 
-    public void UpdatePlayerModel()
+    public void UpdateAgentModel(GameObject agentModel, bool isAlly)
     {
-        int team = _player.GetTeam();
-        int shipType = _player.GetShipType();
+        int team = agentModel.GetComponent<ShipController>().GetShipData().GetTeam();
+        int shipType = agentModel.GetComponent<ShipController>().GetShipData().GetShipType();
 
-        //Update Team Model
-        _playerModel.transform.GetChild(team).gameObject.SetActive(true);
+        //Update Outline Color
+        if (agentModel.tag != "Player")
+        {
+            if (isAlly)
+                agentModel.GetComponent<Outline>().SetColor(_teamColor);
+            else
+                agentModel.GetComponent<Outline>().SetColor(_enemyColor);
 
-        //Update Ship Type Model
-        _playerModel.transform.GetChild(team).gameObject.transform.GetChild(shipType).gameObject.SetActive(true);
+            agentModel.GetComponent<Outline>().enabled = true;
+
+            for (int i = 0; i<3; i++)
+            {
+                if (team != i)
+                    agentModel.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            for (int j = 0; j<3; j++)
+            {
+                if (shipType != j)
+                    agentModel.transform.GetChild(team).gameObject.transform.GetChild(j).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            //Update Team Model
+            agentModel.transform.GetChild(team).gameObject.SetActive(true);
+
+            //Update Ship Type Model
+            agentModel.transform.GetChild(team).gameObject.transform.GetChild(shipType).gameObject.SetActive(true);
+        }
     }
 
     public void UpdateTeamPositions()
     {
         int team = _player.GetTeam();
+        int swapedTeam = team == 1 ? 1 : 2;
         if (team != 0)
         {
-            if (team == 1)
-            {
-                //RED TEAM CHOSEN
-                _motherships[0].transform.position = _mothershipPositions[1].position;
-                _motherships[1].transform.position = _mothershipPositions[0].position;
-            }
-            else
-            {
-                //YELLOW TEAM CHOSEN
-                _motherships[0].transform.position = _mothershipPositions[2].position;
-                _motherships[2].transform.position = _mothershipPositions[0].position;
-            }
-        } //BLUE TEAM CHOSEN
+            //Update Ship Positions
+            _motherships[0].transform.position = _mothershipPositions[swapedTeam].position;
+            _motherships[swapedTeam].transform.position = _mothershipPositions[0].position;
+
+            //Update Ship Outline Colors
+            _motherships[0].GetComponent<Outline>().SetColor(_enemyColor);
+            _motherships[swapedTeam].GetComponent<Outline>().SetColor(_teamColor);
+
+        } //BLUE TEAM CHOSEN (NO CHANGES NEEDED)
     }
 
-    public void SpawnPlayers()
+    public void SpawnAgents()
     {
+        //TODO: ADD SHIP INFORMATION TO AI SHIPS
+        int team = _player.GetTeam();
+        int enemyTeam_1 = team == 1 ? 0 : 1;
+        int enemyTeam_2 = team == 2 ? 0 : 2;
 
+        for (int i = 0; i < 4; i++) //PLAYER TEAM
+        {
+            int shipType = Random.Range(0, 3);
+            GameObject ally = Instantiate(_aiModel, _allyPositions[i].transform.position, _allyPositions[i].transform.rotation);
+            ally.GetComponent<ShipController>().SetShipData(team, shipType);
+            UpdateAgentModel(ally, true);
+        }
+
+        //Spawn Enemies
+        for (int j = 0; j < 5; j++) //ENEMY TEAM 1
+        {
+            int shipType = Random.Range(0, 3);
+            GameObject enemy = Instantiate(_aiModel, _enemyPositions_1[j].transform.position, _enemyPositions_1[j].transform.rotation);
+            enemy.GetComponent<ShipController>().SetShipData(enemyTeam_1, shipType);
+            UpdateAgentModel(enemy, false);
+        }
+
+        for (int k = 0; k < 5; k++) //ENEMY TEAM 2
+        {
+            int shipType = Random.Range(0, 3);
+            GameObject enemy = Instantiate(_aiModel, _enemyPositions_2[k].transform.position, _enemyPositions_2[k].transform.rotation);
+            enemy.GetComponent<ShipController>().SetShipData(enemyTeam_2, shipType);
+            UpdateAgentModel(enemy, false);
+        }
     }
 
     public void StartCountdown()

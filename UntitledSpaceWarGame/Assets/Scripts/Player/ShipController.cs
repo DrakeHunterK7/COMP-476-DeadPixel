@@ -51,8 +51,6 @@ public class ShipController : MonoBehaviour
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
-
-        _shipData = new ShipInformation(1, 2);
     }
 
     // Update is called once per frame
@@ -140,5 +138,15 @@ public class ShipController : MonoBehaviour
     public ShipInformation GetShipData()
     {
         return _shipData;
+    }
+
+    public void SetShipData(int team, int shipType)
+    {
+        _shipData = new ShipInformation(team, shipType);
+    }
+
+    public void SetShipData(ShipInformation shipData)
+    {
+        _shipData = new ShipInformation(shipData);
     }
 }
