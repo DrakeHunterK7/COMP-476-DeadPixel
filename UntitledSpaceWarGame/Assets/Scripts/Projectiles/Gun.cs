@@ -6,11 +6,16 @@ public class Gun : Projectile
 {
     private float bulletspeed = 1000f;
 
+    public float _attackStrength;
+
     private List<Collider> damageableentities = new List<Collider>();
 
     private Vector3 startpos;
 
-   private Collider collider;
+    private Collider collider;
+
+    [SerializeField] private GameObject _explosion;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +56,19 @@ public class Gun : Projectile
                 {
                     if (collider.bounds.Intersects(entity.bounds))
                     {
-                        Debug.Log("Has been hit");
+                        if (entity.gameObject.tag == "Player")
+                        {
+                            entity.gameObject.GetComponent<ShipController>().TakeDamage(_attackStrength);
+                        }
+                        else
+                        {
+                            if (entity.gameObject.GetComponent<ShipAIBT>().GetShipData().TakeDamage(_attackStrength))
+                            {
+                                Instantiate(_explosion, entity.gameObject.transform.position, entity.gameObject.transform.rotation);
+                                Destroy(entity.gameObject);
+                            }
+                        }
+
                         Destroy(this.gameObject);
                     }
                 }

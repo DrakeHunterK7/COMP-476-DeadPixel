@@ -11,6 +11,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _playerHUD;
     [SerializeField] bool canPause;
 
+    //Player Reference
+    private ShipController _player;
+
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipController>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -25,6 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         //Pause game and unlock/show cursor
         Time.timeScale = 0;
+        _player._canMove = false;
         _pauseMenu.SetActive(true);
         _playerHUD.SetActive(false);
     }
@@ -33,6 +42,7 @@ public class MenuManager : MonoBehaviour
     {
         //Resume game and hide/lock cursor
         Time.timeScale = 1;
+        _player._canMove = true;
         _pauseMenu.SetActive(false);
         _playerHUD.SetActive(true);
     }
