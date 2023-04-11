@@ -682,7 +682,8 @@ GameObject:
   - component: {fileID: 4312535396959567595}
   - component: {fileID: 6401631698497983729}
   - component: {fileID: 1668092836}
-  m_Layer: 0
+  - component: {fileID: 6360718512862274860}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -941,6 +942,19 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   _energyFill: {fileID: 0}
+--- !u!135 &6360718512862274860
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385368751221158058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 12
+  m_Center: {x: 0, y: -148.27606, z: 4164.2563}
 --- !u!1 &8034655426367814767
 GameObject:
   m_ObjectHideFlags: 0

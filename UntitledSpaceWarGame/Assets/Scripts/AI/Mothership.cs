@@ -8,9 +8,6 @@ public class Mothership : MonoBehaviour
     public int _team;
     public float _currentHealth;
 
-    [HideInInspector]
-    public static float _maxHealth = 100.0f;
-
     [HideInInspector] public List<ShipAIBT> ships;
     public static float _maxHealth = 1000.0f;
 
@@ -39,6 +36,7 @@ public class Mothership : MonoBehaviour
     {
         _currentHealth = _maxHealth;
         ships = new List<ShipAIBT>();
+        _teamShips = new List<GameObject>();
     }
     
     public void SetMaxHP(float maxHP)

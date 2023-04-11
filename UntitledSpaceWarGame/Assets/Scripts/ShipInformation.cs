@@ -6,6 +6,7 @@ public class ShipInformation
 {
     //Speed Variables
     public float _movementSpeed;
+    public float _attackSpeed;
 
     //Attack Variables
     public float _attackStrength;

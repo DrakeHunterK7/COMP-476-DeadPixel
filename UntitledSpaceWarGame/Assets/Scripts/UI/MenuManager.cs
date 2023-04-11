@@ -16,7 +16,11 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipController>();
+        var _playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (_playerObject != null)
+        {
+            _player = _playerObject.GetComponent<ShipController>();
+        }
     }
 
     // Update is called once per frame
