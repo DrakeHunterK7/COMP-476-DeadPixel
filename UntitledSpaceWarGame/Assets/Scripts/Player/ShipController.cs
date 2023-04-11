@@ -36,9 +36,11 @@ public class ShipController : MonoBehaviour
     public GameObject _missileCrossair;
     public GameObject _laserIcon;
     public GameObject _laserCrossair;
+    private HealthBar _healthBar;
 
     //Ship Information Reference
     private ShipInformation _shipData;
+    [HideInInspector] public bool _canMove = false;
 
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
@@ -47,7 +49,13 @@ public class ShipController : MonoBehaviour
 
     private Vector2 _lookInput, _centerOfScreen, _mouseDistance;
 
+    //Weapon Variables
     private LineRenderer laserLine;
+    private bool _energyEmpty = false;
+    [Header ("Weapon Variables")]
+    [SerializeField] private float _laserStrength = 0.05f;
+    [SerializeField] private GameObject _explosion;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +63,15 @@ public class ShipController : MonoBehaviour
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
         laserLine = gameObject.GetComponent<LineRenderer>();
+        _healthBar = gameObject.GetComponent<HealthBar>();
+
+        //Update Max Health Bar
+        if (_shipData != null)
+        {
+            _healthBar.SetMaxEnergy(_shipData.GetEnergyLevel());
+            _healthBar.SetMaxHP(_shipData.GetHP());
+            _healthBar.SetMaxShieldHP(_shipData.GetShieldHP());
+        }
     }
 
     // Update is called once per frame
@@ -86,32 +103,45 @@ public class ShipController : MonoBehaviour
         // Apply Rotation
         transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
 
-
-        if (!_weaponChanged)
+        if (_canMove)
         {
-            laserLine.enabled = false;
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (!_weaponChanged)
             {
-                Shoot();
-            }
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                Shoot();
+                laserLine.enabled = false;
+                if (Input.GetKeyDown(KeyCode.Mouse0) && !_energyEmpty)
+                {
+                    Shoot();
+                    UseEnergy();
+                }
+                else
+                {
+                    ReplenishEnergy();
+                }
             }
             else
             {
-                laserLine.enabled = false;
+                if (Input.GetKey(KeyCode.Mouse0) && !_energyEmpty)
+                {
+                    Shoot();
+                    UseEnergy();
+                }
+                else
+                {
+                    laserLine.enabled = false;
+                    ReplenishEnergy();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                ChangeWeapon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TakeDamage(_shipData.GetAttackForce());
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            ChangeWeapon();
-        }
-
     }
 
     public void ChangeWeapon()
@@ -134,18 +164,12 @@ public class ShipController : MonoBehaviour
         }
     }
 
-
     public void Shoot()
     {
         var forwarddir = (_shootpoint.transform.position - transform.position).normalized;
 
         if (_weaponChanged)
         {
-            //TODO: Add a laser prefab
-            //var b = Instantiate(_laserPrefab, _shootpoint.transform.position, transform.rotation);
-            ////var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            //b.GetComponent<Projectile>().direction = forwarddir;
-            
             laserLine.SetPosition(0, _shootpoint.transform.position);
             laserLine.enabled = true;
             RaycastHit hit;
@@ -153,22 +177,59 @@ public class ShipController : MonoBehaviour
             if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 1000f))
             {
                 laserLine.SetPosition(1, hit.point);
+                if (hit.collider.gameObject.tag == "AI")
+                {
+                    hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().TakeDamage(_shipData.GetAttackForce() * _laserStrength);
+                    Debug.Log(hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().GetHP());
+                    if (hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().GetHP() <= 0f)
+                    {
+                        Instantiate(_explosion, hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.rotation);
+                        Destroy(hit.collider.gameObject);
+                    }
+                }
             }
             else
             {
                 laserLine.SetPosition(1, _shootpoint.transform.position + (forwarddir * 1000f));
             }
-
         }
         else
         {
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
             var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
             b.GetComponent<Projectile>().direction = forwarddir;
-
-
+            b.GetComponent<Gun>()._attackStrength = _shipData.GetAttackForce();
         }
-        
+    }
+
+    public void UseEnergy()
+    {
+        _shipData.UseEnergy();
+        _healthBar.SetEnergy(_shipData.GetEnergyLevel());
+
+        if (_shipData.GetEnergyLevel() == 0)
+            _energyEmpty = true;
+    }
+
+    public void ReplenishEnergy()
+    {
+        _shipData.ReplenishEnergy();
+        _healthBar.SetEnergy(_shipData.GetEnergyLevel());
+
+        if (_shipData.GetEnergyLevel() > 50f)
+            _energyEmpty = false;
+    }
+
+    public void TakeDamage(float AttackForce)
+    {
+        _shipData.TakeDamage(AttackForce);
+        UpdateHealth();
+    }
+
+    public void UpdateHealth()
+    {
+        _healthBar.SetHealth(_shipData.GetHP());
+        _healthBar.SetShieldHP(_shipData.GetShieldHP());
     }
 
     public ShipInformation GetShipData()
@@ -184,5 +245,10 @@ public class ShipController : MonoBehaviour
     public void SetShipData(ShipInformation shipData)
     {
         _shipData = new ShipInformation(shipData);
+    }
+
+    public void OnDestroy()
+    {
+        //
     }
 }

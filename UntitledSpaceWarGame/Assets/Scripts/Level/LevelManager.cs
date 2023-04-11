@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject _playerModel;
     [SerializeField] private GameObject _aiModel;
     private ShipInformation _player;
+    private ShipController _playerController;
 
     //Team Positions
     [Header("Ships/MotherShips Variables")]
@@ -54,6 +55,7 @@ public class LevelManager : MonoBehaviour
         else
             _player = GameObject.FindGameObjectsWithTag("CharacterData")[0].GetComponent<PlayerData>().GetShipData();
 
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipController>();
         _playerModel.GetComponent<ShipController>().SetShipData(_player);
 
         UpdateAgentModel(_playerModel, true);
@@ -141,8 +143,8 @@ public class LevelManager : MonoBehaviour
         {
             int shipType = Random.Range(0, 3);
             GameObject ally = Instantiate(_aiModel, _allyPositions[i].transform.position, _allyPositions[i].transform.rotation);
+            _motherships[team].GetComponent<Mothership>()._teamShips.Add(ally);
             var allyScript = ally.GetComponent<ShipAIBT>();
-            Debug.Log(allyScript);
             allyScript.SetShipData(team, shipType);
             UpdateAgentModel(ally, true);
         }
@@ -153,6 +155,7 @@ public class LevelManager : MonoBehaviour
             int shipType = Random.Range(0, 3);
             GameObject enemy = Instantiate(_aiModel, _enemyPositions_1[j].transform.position, _enemyPositions_1[j].transform.rotation);
             enemy.GetComponent<ShipAIBT>().SetShipData(enemyTeam_1, shipType);
+            _motherships[enemyTeam_1].GetComponent<Mothership>()._teamShips.Add(enemy);
             UpdateAgentModel(enemy, false);
         }
 
@@ -161,6 +164,7 @@ public class LevelManager : MonoBehaviour
             int shipType = Random.Range(0, 3);
             GameObject enemy = Instantiate(_aiModel, _enemyPositions_2[k].transform.position, _enemyPositions_2[k].transform.rotation);
             enemy.GetComponent<ShipAIBT>().SetShipData(enemyTeam_2, shipType);
+            _motherships[enemyTeam_2].GetComponent<Mothership>()._teamShips.Add(enemy);
             UpdateAgentModel(enemy, false);
         }
     }
@@ -198,6 +202,7 @@ public class LevelManager : MonoBehaviour
     public void StartGame()
     {
         _timerIsRunning = true;
+        _playerController._canMove = true;
     }
 
     public void EndGame()

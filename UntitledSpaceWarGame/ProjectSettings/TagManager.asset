@@ -8,6 +8,8 @@ TagManager:
   - TrackingObject
   - Actors
   - AI
+  - Obstacle
+  - CharacterData
   layers:
   - Default
   - TransparentFX

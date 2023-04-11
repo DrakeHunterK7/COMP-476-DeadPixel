@@ -5,11 +5,11 @@ using UnityEngine;
 public class ShipInformation
 {
     //Speed Variables
-    public float _attackSpeed;
     public float _movementSpeed;
 
     //Attack Variables
     public float _attackStrength;
+    public float _energyLevel;
 
     //Defense Variables
     public float _hp;
@@ -31,12 +31,14 @@ public class ShipInformation
         _attackStrength = 15f;
 
         //Speed
-        _attackSpeed = 15f;
         _movementSpeed = 100f;
 
         //Defense
         _hp = 100f;
-        _shieldHp = 50f;
+        _shieldHp = 100f;
+
+        //Energy
+        _energyLevel = 100f;
     }
 
     public ShipInformation(int team, int shipType)
@@ -80,12 +82,14 @@ public class ShipInformation
         _attackStrength = 15f * attackMultiplier;
 
         //Speed
-        _attackSpeed = 15f * speedMultiplier;
         _movementSpeed = 100f * speedMultiplier;
 
         //Defense
         _hp = 100f;
-        _shieldHp = 50f * defenseMultiplier;
+        _shieldHp = 100f * defenseMultiplier;
+
+        //Energy
+        _energyLevel = 100f;
     }
 
     public ShipInformation(ShipInformation shipData)
@@ -97,12 +101,14 @@ public class ShipInformation
         _attackStrength = shipData._attackStrength;
 
         //Speed
-        _attackSpeed = shipData._attackSpeed;
         _movementSpeed = shipData._movementSpeed;
 
         //Defense
         _hp = shipData._hp;
         _shieldHp = shipData._shieldHp;
+
+        //Energy
+        _energyLevel = shipData._energyLevel;
     }
 
     public void SetTeam(int team)
@@ -150,26 +156,40 @@ public class ShipInformation
         _attackStrength = 15f * attackMultiplier;
 
         //Speed
-        _attackSpeed = 15f * speedMultiplier;
         _movementSpeed = 15f * speedMultiplier;
 
         //Defense
         _hp = 100f;
-        _shieldHp = 50f * defenseMultiplier;
+        _shieldHp = 100f * defenseMultiplier;
+
+        //Energy
+        _energyLevel = 100f;
     }
 
-    public void TakeDamage(float AttackForce)
+    public void UseEnergy()
+    {
+        _energyLevel = Mathf.Clamp(_energyLevel - 0.1f, 0f, 100f);
+    }
+
+    public void ReplenishEnergy()
+    {
+        _energyLevel = Mathf.Clamp(_energyLevel + 0.05f, 0f, 100f);
+    }
+
+    public bool TakeDamage(float AttackForce)
     {
         if (_shieldHp > AttackForce)
         {
             _shieldHp -= AttackForce;
+            AttackForce = 0;
         }
         else if (_shieldHp > 0)
         {
             AttackForce -= _shieldHp;
             _shieldHp = 0;
         }
-        else if (_hp > AttackForce)
+
+        if (_hp > AttackForce)
         {
             _hp -= AttackForce;
         }
@@ -177,7 +197,10 @@ public class ShipInformation
         {
             //SHIP DESTROYED
             _hp = 0;
+            return true;
         }
+
+        return false;
     }
 
     public int GetTeam()
@@ -200,10 +223,19 @@ public class ShipInformation
         return _shieldHp;
     }
 
+    public float GetEnergyLevel()
+    {
+        return _energyLevel;
+    }
+
+    public float GetAttackForce()
+    {
+        return _attackStrength;
+    }
+
     public override string ToString()
     {
         return "Team : " + _team + ", Ship Type: " + _shipType + 
-            "\nHP : " + _hp + ", ATK : " + _attackStrength + ", ATK-SPD : " + _attackSpeed 
-            + ", SPD : " + _movementSpeed + ", DEF : " + _shieldHp;
+            "\nHP : " + _hp + ", ATK : " + _attackStrength + ", SPD : " + _movementSpeed + ", DEF : " + _shieldHp + ", ENERGY : " + _energyLevel;
     }
 }
