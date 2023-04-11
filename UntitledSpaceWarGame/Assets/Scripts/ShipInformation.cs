@@ -33,7 +33,7 @@ public class ShipInformation
 
         //Speed
         _attackSpeed = 15f;
-        _movementSpeed = 200f;
+        _movementSpeed = 350f;
 
         //Defense
         _hp = 100f;
@@ -85,7 +85,7 @@ public class ShipInformation
 
         //Speed
         _attackSpeed = 15f * speedMultiplier;
-        _movementSpeed = 200f * speedMultiplier;
+        _movementSpeed = 350f * speedMultiplier;
 
         //Defense
         _hp = 100f;
@@ -160,7 +160,7 @@ public class ShipInformation
 
         //Speed
         _attackSpeed = 15f * speedMultiplier;
-        _movementSpeed = 200f * speedMultiplier;
+        _movementSpeed = 350f * speedMultiplier;
 
         //Defense
         _hp = 100f;

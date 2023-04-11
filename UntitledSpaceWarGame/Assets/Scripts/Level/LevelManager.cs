@@ -70,6 +70,11 @@ public class LevelManager : MonoBehaviour
     {
         if (_timerIsRunning)
             UpdateGameTimer();
+
+        if (_timerDone)
+            EndGame(false);
+
+        CheckMotherships();
     }
 
     public void UpdateAgentModel(GameObject agentModel, bool isAlly)
@@ -137,7 +142,6 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnAgents()
     {
-        //TODO: ADD SHIP INFORMATION TO AI SHIPS
         int team = _player.GetTeam();
         int enemyTeam_1 = team == 1 ? 0 : 1;
         int enemyTeam_2 = team == 2 ? 0 : 2;
@@ -208,9 +212,55 @@ public class LevelManager : MonoBehaviour
         _playerController._canMove = true;
     }
 
-    public void EndGame()
+    public void EndGame(bool isDead)
     {
+        Time.timeScale = 0;
 
+        _gameOverUI.SetActive(true);
+
+        if (isDead || _motherships[_teamSelected] == null)
+        {
+            _winnerText.text = "FAILED TO CONQUER THE BATTLEFIELD...";
+            _winnerText.color = _enemyColor;
+            return;
+        }
+
+        _playerController._canMove = false;
+        float highestHP = _motherships[_teamSelected].GetComponent<Mothership>()._currentHealth;
+        int team = _teamSelected;
+        foreach (GameObject mothership in _motherships)
+        {
+            if (mothership != null)
+            {
+                if (mothership.GetComponent<Mothership>()._currentHealth > highestHP)
+                {
+                    highestHP = mothership.GetComponent<Mothership>()._currentHealth;
+                    team = mothership.GetComponent<Mothership>()._team;
+                }
+            }
+        }
+
+        //Update winner text based on the winning team
+        if (team == _player.GetTeam())
+            _winnerText.text = "CONGRATULATION . MISSION SUCCESSFUL .";
+        else
+        {
+            _winnerText.text = "FAILED TO CONQUER THE BATTLEFIELD...";
+            _winnerText.color = _enemyColor;
+        }
+    }
+
+    public void CheckMotherships()
+    {
+        int active = 0;
+        foreach (GameObject mothership in _motherships)
+        {
+            if (mothership != null)
+                active++;
+        }
+
+        if (active <= 1)
+            EndGame(false);
     }
 
     public void UpdateGameTimer()

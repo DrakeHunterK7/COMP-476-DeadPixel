@@ -58,6 +58,9 @@ public class ShipController : MonoBehaviour
     [SerializeField] private float _laserStrength = 0.05f;
     [SerializeField] private GameObject _explosion;
 
+    [Header ("Level Manager Reference")]
+    [SerializeField] private LevelManager _levelManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -145,9 +148,9 @@ public class ShipController : MonoBehaviour
                 ChangeWeapon();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
-                TakeDamage(_shipData.GetAttackForce());
+                TakeDamage(1f);
             }
         }
     }
@@ -184,15 +187,22 @@ public class ShipController : MonoBehaviour
 
             if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 1000f))
             {
+                //LASER COLLISION DETECTION
                 laserLine.SetPosition(1, hit.point);
                 if (hit.collider.gameObject.tag == "AI")
                 {
                     hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().TakeDamage(_shipData.GetAttackForce() * _laserStrength);
-                    Debug.Log(hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().GetHP());
                     if (hit.collider.gameObject.GetComponent<ShipAIBT>().GetShipData().GetHP() <= 0f)
                     {
                         Instantiate(_explosion, hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.rotation);
                         Destroy(hit.collider.gameObject);
+                    }
+                }
+                else if (hit.collider.gameObject.tag == "Mothership")
+                {
+                    if (hit.collider.gameObject.GetComponent<Mothership>()._team != _shipData.GetTeam())
+                    {
+                        hit.collider.gameObject.GetComponent<Mothership>().TakeDamage(_shipData.GetAttackForce() * _laserStrength);
                     }
                 }
             }
@@ -208,6 +218,7 @@ public class ShipController : MonoBehaviour
             b.GetComponent<Projectile>().direction = forwarddir;
             b.GetComponent<Projectile>().ownerShip = gameObject;
             b.GetComponent<Gun>()._attackStrength = _shipData.GetAttackForce();
+            b.GetComponent<Gun>().ownerShip = this.gameObject;
         }
     }
 
@@ -231,8 +242,13 @@ public class ShipController : MonoBehaviour
 
     public void TakeDamage(float AttackForce)
     {
-        _shipData.TakeDamage(AttackForce);
-        UpdateHealth();
+        if (_shipData.TakeDamage(AttackForce))
+        {
+            UpdateHealth();
+            Die();
+        }
+        else
+            UpdateHealth();
     }
 
     public void UpdateHealth()
@@ -256,8 +272,23 @@ public class ShipController : MonoBehaviour
         _shipData = new ShipInformation(shipData);
     }
 
+    public void Die()
+    {
+        Instantiate(_explosion, transform.position, transform.rotation);
+        transform.GetChild(_shipData.GetTeam()).gameObject.SetActive(false);
+        StartCoroutine(DeathOffset(3));
+    }
+
     public void OnDestroy()
     {
-        //
+        //Stop the Camera from following the player
+        Camera.main.GetComponent<CameraMovementMenu>().enabled = false;
+        _levelManager.EndGame(true);
+    }
+
+    IEnumerator DeathOffset(int seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        Destroy(this.gameObject);
     }
 }
