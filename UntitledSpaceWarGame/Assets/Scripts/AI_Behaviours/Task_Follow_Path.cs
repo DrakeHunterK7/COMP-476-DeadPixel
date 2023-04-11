@@ -16,11 +16,11 @@ public class Task_Follow_Path : Node
 
     private ShipAIBT _BT;
 
-    private List<Transform> _waypoints;
+    private List<Vector3> _path;
     private Animator _animator;
 
     //Waypoint travel attributes
-    private int _currentWaypointIndex;
+    private int _currentPathIndex;
 
     private AStarPathfinding pathfinder;
 
@@ -38,27 +38,30 @@ public class Task_Follow_Path : Node
     }
 
     /* TO-DO
-     *  - To use this task we need to make sure that the path is calculated in another task script (this shouldn't be hard)
      *  - We need to reset the _currentWaypointIndex to 0 everytime 
      *  - After calculating the path in a Task_Calculate_X_Path script we need to set a bool to make sure that it doesn't calculate it constantly
      */
 
     public override NodeState Evaluate()
     {
-        _waypoints = (List<Transform>)_BT.GetRootData("Current_Path");
-        _currentWaypointIndex = (int)_BT.GetRootData("Current_Path_Index");
+        _path = (List<Vector3>)_BT.GetRootData("Current_Path");
+        _currentPathIndex = (int)_BT.GetRootData("Current_Path_Index");
 
         // Current waypoint that the player is trying to get to
-        Transform currentWaypoint = _waypoints[_currentWaypointIndex];
+        Vector3 currentNodePos = _path[_currentPathIndex % _path.Count];
 
         // AI has arrived at the target position
-        if(Vector3.Distance(_transform.position, currentWaypoint.position) < 15.0f)
+        if(Vector3.Distance(_transform.position, currentNodePos) < 15.0f)
         {
-            _currentWaypointIndex++;
+            _currentPathIndex++;
+            _BT.SetRootData("Current_Path_Index", _currentPathIndex);
         }
 
-        _seek.SetTargetPosition(currentWaypoint.position);
-        _aiAgent.SetActiveMovement(_seek);
+        if(currentNodePos != null)
+        {
+            _seek.SetTargetPosition(currentNodePos);
+            _aiAgent.SetActiveMovement(_seek);
+        }
         
         state = NodeState.RUNNING;
         return state;

@@ -41,6 +41,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6748412765512352565}
   - component: {fileID: -1748932093352447733}
+  - component: {fileID: -7908113212973484635}
+  - component: {fileID: 238186132848320439}
+  - component: {fileID: -6032945029568664540}
+  - component: {fileID: -5664207107308901358}
+  - component: {fileID: -1194192204920564332}
   - component: {fileID: 516791876209685413}
   m_Layer: 0
   m_Name: AITestPrefab
@@ -81,6 +86,91 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waypoints: []
+--- !u!114 &-7908113212973484635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748412765512352562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70d5548e3b6cb94fb75e2cce2f0a236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxForwardSpeed: 200
+  _maxAngularRotationSpeed: 50
+  forward: {x: 0, y: 0, z: 0}
+  _velocity: {x: 0, y: 0, z: 0}
+  freezeMovement: 0
+  _activeMovements: []
+  debugSteering: 0
+--- !u!114 &238186132848320439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748412765512352562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bd7c0864b65074281953e5db0c2b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
+  _target: {fileID: 0}
+--- !u!114 &-6032945029568664540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748412765512352562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f052da2a831eba34c8edd95e529f3394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
+  _target: {fileID: 0}
+--- !u!114 &-5664207107308901358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748412765512352562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70fa57eb008d72349ae21e5ba7174f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 0
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lookAhead: 0
+  avoidDistance: 0
+  _debugRays: 0
+  _avoidingCollision: 0
+--- !u!114 &-1194192204920564332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748412765512352562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613abd00fbc81ba488ec479814b6803d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  weight: 1
+  _targetTransform: {fileID: 0}
 --- !u!114 &516791876209685413
 MonoBehaviour:
   m_ObjectHideFlags: 0

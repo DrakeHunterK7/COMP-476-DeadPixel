@@ -11,6 +11,7 @@ TagManager:
   - AI
   - Obstacle
   - CharacterData
+  - Mothership
   layers:
   - Default
   - TransparentFX

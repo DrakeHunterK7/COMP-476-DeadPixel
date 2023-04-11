@@ -518,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748412765512352565, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 62.1
+      value: 146.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748412765512352565, guid: 401c6ac9cbb2f1b4a91cda74a33828f1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -867,7 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70d5548e3b6cb94fb75e2cce2f0a236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxForwardSpeed: 30
+  _maxForwardSpeed: 60
   _maxAngularRotationSpeed: 8
   forward: {x: 0, y: 0, z: 0}
   _velocity: {x: 0, y: 0, z: 0}
@@ -921,8 +921,8 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  lookAhead: 30
-  avoidDistance: 25
+  lookAhead: 40
+  avoidDistance: 40
   _debugRays: 0
   _avoidingCollision: 0
 --- !u!1001 &1868193909

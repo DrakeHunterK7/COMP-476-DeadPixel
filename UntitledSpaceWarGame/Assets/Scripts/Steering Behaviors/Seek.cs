@@ -20,7 +20,12 @@ public class Seek : AIMovement
     {
         SteeringOutput output =  base.GetMovement(agent);
 
-        _targetPosition = _targetTransform.position;
+        
+
+        if(_targetTransform != null)
+        {
+            _targetPosition = _targetTransform.position;
+        }
 
         Vector3 lookAtVector = (_targetPosition - agent.transform.position).normalized;
 

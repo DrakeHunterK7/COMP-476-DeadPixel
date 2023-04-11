@@ -558,9 +558,10 @@ GameObject:
   - component: {fileID: 7074223260134453684}
   - component: {fileID: 1942492275}
   - component: {fileID: 1942492276}
+  - component: {fileID: -5012369324318090672}
   m_Layer: 0
   m_Name: MotherShip_01
-  m_TagString: Untagged
+  m_TagString: Mothership
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3930,3 +3931,17 @@ MonoBehaviour:
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: -0.57735026, y: -0.57735026, z: 0.57735026}
+--- !u!114 &-5012369324318090672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904973231290791380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e3682857b085a42bd1af6088362e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _team: 0
+  _currentHealth: 0

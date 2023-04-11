@@ -54,6 +54,14 @@ public class ShipAIBT : Tree
             }),
             // This should be called after any path that we calculate
             //new Task_Follow_Path(transform, this) // TESTING WITH WAYPOINTS, NEED TO CHANGE AND GENERATE PATHFINDING BASED ON OTHER CONDITIONS
+            new Sequence(new List<Node> 
+            {
+                new Task_DecideBestStrategy(transform, shipInformation, this),
+                new Task_GeneratePath(this.transform, this),
+                new Task_Follow_Path(this.transform, this)
+            })
+
+
         });
 
         return root;
