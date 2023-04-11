@@ -99,6 +99,9 @@ public class LevelManager : MonoBehaviour
                 if (shipType != j)
                     agentModel.transform.GetChild(team).gameObject.transform.GetChild(j).gameObject.SetActive(false);
             }
+            
+            agentModel.GetComponent<ShipAIBT>().mothership = _motherships[team].GetComponent<Mothership>();
+            _motherships[team].GetComponent<Mothership>().ships.Add(agentModel.GetComponent<ShipAIBT>());
         }
         else
         {

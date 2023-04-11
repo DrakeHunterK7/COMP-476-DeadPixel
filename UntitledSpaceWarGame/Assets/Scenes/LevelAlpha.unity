@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.058490183, g: 0.034027055, b: 0.01399624, a: 1}
+  m_IndirectSpecularColor: {r: 0.058499232, g: 0.034016777, b: 0.013992452, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -57850,6 +57850,10 @@ PrefabInstance:
       propertyPath: _missileIcon
       value: 
       objectReference: {fileID: 8440520497121940756}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _forwardSpeed
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _laserCrossair
       value: 

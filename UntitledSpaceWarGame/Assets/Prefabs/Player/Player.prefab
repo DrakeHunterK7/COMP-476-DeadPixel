@@ -680,7 +680,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7385368751221158061}
   - component: {fileID: 4312535396959567595}
-  m_Layer: 0
+  - component: {fileID: 7384612991397149087}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -727,10 +728,24 @@ MonoBehaviour:
   _shootpoint: {fileID: 4312535396743738258}
   _bulletPrefab: {fileID: 21995312768275671, guid: bb165b3f457dfd345aada873e9634224, type: 3}
   _laserPrefab: {fileID: 21995312768275671, guid: 96641d098b4db7a48a2e77390e87a023, type: 3}
+  velocity: {x: 0, y: 0, z: 0}
   _missileIcon: {fileID: 0}
   _missileCrossair: {fileID: 0}
   _laserIcon: {fileID: 0}
   _laserCrossair: {fileID: 0}
+--- !u!135 &7384612991397149087
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385368751221158058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8034655426367814767
 GameObject:
   m_ObjectHideFlags: 0

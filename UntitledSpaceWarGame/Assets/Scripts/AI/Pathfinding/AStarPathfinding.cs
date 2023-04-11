@@ -97,14 +97,11 @@ public class AStarPathfinding
 
     List<Vector3> CalculatePath(PathNode finalNode)
     {
-        var pawnYPos = pathfinder.transform.position.y;
         finalPath.Clear();
         var currentNode = finalNode;
-        targetActualPosition.y = pawnYPos;
         finalPath.Add(targetActualPosition);
         while (currentNode != null)
         {
-            currentNode.worldPosition.y = pawnYPos;
             finalPath.Add(currentNode.worldPosition);
             currentNode = currentNode.previousNode;
         }

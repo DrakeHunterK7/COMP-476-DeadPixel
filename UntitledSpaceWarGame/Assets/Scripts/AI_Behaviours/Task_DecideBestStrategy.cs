@@ -60,7 +60,7 @@ public class Task_DecideBestStrategy : Node
         float bestScore = 0.0f;
         float[] strategyScores =
         {
-            0.0f, // CalculateStrategyA(),
+            CalculateStrategyA(),
             CalculateStrategyB(),
             CalculateStrategyC(),
             CalculateStrategyD()
@@ -97,7 +97,6 @@ public class Task_DecideBestStrategy : Node
         return state;
     }
 
-
     // Strategy A
     // Deciding factors:
     //  - Mothership health
@@ -110,13 +109,14 @@ public class Task_DecideBestStrategy : Node
         score += _teamMotherShip._currentHealth / Mothership._maxHealth;                                                                        // Current AI health
            
         // Enemies near team mothership
-        Collider[] shipsNearMS = Physics.OverlapSphere(_teamMotherShip.transform.position, 200.0f, 1 << 6);
+        Collider[] shipsNearMS = Physics.OverlapSphere(_teamMotherShip.transform.position, 2000.0f, 1 << 6);
         int nearbyEnemies = 0;
 
         // Idk if I should be doing this but I am going to do it anyways :P
         foreach(Collider ship in shipsNearMS)
         {
-            if(ship.GetComponent<ShipAIBT>().shipInformation._team != _shipInformation._team)
+            if (ship.GetComponent<ShipAIBT>() == null) continue;
+            if(ship.GetComponent<ShipAIBT>().GetShipData().GetTeam() != _shipInformation._team)
             {
                 nearbyEnemies++;
             }
@@ -124,9 +124,22 @@ public class Task_DecideBestStrategy : Node
 
         score += (10 - nearbyEnemies) / 10; // Change 10 to the total number of enemies in the scene
 
-        //score += (20000 - Vector3.Distance(_transform.position, _teamMotherShip.transform.position)) / 20000.0f;                                // Distance calculation
+        //score += (20000 - Vector3.Distance(_transform.position, _teamMotherShip.transform.position)) / 20000.0f;
 
-
+        if (_shipAIBT.mothership != null)
+        {
+            foreach (var ship in _shipAIBT.mothership.ships)
+            {
+                var shipStrategy = ship.GetRootData("NewStrategy");
+                if (shipStrategy != null && ship.gameObject != _shipAIBT.gameObject && (char) shipStrategy == 'A')
+                {
+                    Debug.Log("Reduction!!");
+                    score -= 500f;
+                }
+            } 
+        }
+        
+        
         return score/2.0f;
     }
 
@@ -144,19 +157,32 @@ public class Task_DecideBestStrategy : Node
                                                                                                                                                 // Enemies near mothership
 
         // Enemies near Mothership A
-        Collider[] shipsNearMS = Physics.OverlapSphere(_enemyMotherShipA.transform.position, 200.0f, 1 << 6);
+        Collider[] shipsNearMS = Physics.OverlapSphere(_enemyMotherShipA.transform.position, 2000.0f, 1 << 6);
         int nearbyEnemies = 0;
 
         // Idk if I should be doing this but I am going to do it anyways :P
         foreach (Collider ship in shipsNearMS)
         {
-            if (ship.GetComponent<ShipAIBT>().shipInformation._team != _shipInformation._team)
+            if (ship.GetComponent<ShipAIBT>() == null) continue;
+            if (ship.GetComponent<ShipAIBT>().GetShipData().GetTeam() != _shipInformation._team)
             {
                 nearbyEnemies++;
             }
         }
 
         score += (10 - nearbyEnemies) / 10; // Change 10 to the total number of enemies in the scene
+        
+        if (_shipAIBT.mothership != null)
+        {
+            foreach (var ship in _shipAIBT.mothership.ships)
+            {
+                var shipStrategy = ship.GetRootData("NewStrategy");
+                if (shipStrategy != null && ship.gameObject != _shipAIBT.gameObject && (char) shipStrategy == 'B')
+                {
+                    score -= 500f;
+                }
+            } 
+        }
 
         // AI Current Health
         score += _shipInformation._hp / 100.0f;
@@ -181,19 +207,32 @@ public class Task_DecideBestStrategy : Node
                                                                                                                                                   // Enemies near mothership
 
         // Enemies near Mothership A
-        Collider[] shipsNearMS = Physics.OverlapSphere(_enemyMotherShipB.transform.position, 200.0f, 1 << 6);
+        Collider[] shipsNearMS = Physics.OverlapSphere(_enemyMotherShipB.transform.position, 2000.0f, 1 << 6);
         int nearbyEnemies = 0;
 
         // Idk if I should be doing this but I am going to do it anyways :P
         foreach (Collider ship in shipsNearMS)
         {
-            if (ship.GetComponent<ShipAIBT>().shipInformation._team != _shipInformation._team)
+            if (ship.GetComponent<ShipAIBT>() == null) continue;
+            if (ship.GetComponent<ShipAIBT>().GetShipData().GetTeam() != _shipInformation._team)
             {
                 nearbyEnemies++;
             }
         }
 
         score += (10 - nearbyEnemies) / 10; // Change 10 to the total number of enemies in the scene
+        
+        if (_shipAIBT.mothership != null)
+        {
+            foreach (var ship in _shipAIBT.mothership.ships)
+            {
+                var shipStrategy = ship.GetRootData("NewStrategy");
+                if (shipStrategy != null && ship.gameObject != _shipAIBT.gameObject && (char) shipStrategy == 'C')
+                {
+                    score -= 500f;
+                }
+            } 
+        }
 
         // AI Current Health
         score += _shipInformation._hp / 100.0f;
@@ -215,19 +254,32 @@ public class Task_DecideBestStrategy : Node
         score += (100 -  _shipInformation._hp) / 100.0f;
 
         // Enemies near team mothership
-        Collider[] shipsNearMS = Physics.OverlapSphere(_teamMotherShip.transform.position, 200.0f, 1 << 6);
+        Collider[] shipsNearMS = Physics.OverlapSphere(_teamMotherShip.transform.position, 2000.0f, 1 << 6);
         int nearbyEnemies = 0;
 
         // Idk if I should be doing this but I am going to do it anyways :P
         foreach (Collider ship in shipsNearMS)
         {
-            if (ship.GetComponent<ShipAIBT>().shipInformation._team != _shipInformation._team)
+            if (ship.GetComponent<ShipAIBT>() == null) continue;
+            if (ship.GetComponent<ShipAIBT>().GetShipData().GetTeam() != _shipInformation._team)
             {
                 nearbyEnemies++;
             }
         }
 
         score += (10 - nearbyEnemies) / 10; // Change 10 to the total number of enemies in the scene
+        
+        if (_shipAIBT.mothership != null)
+        {
+            foreach (var ship in _shipAIBT.mothership.ships)
+            {
+                var shipStrategy = ship.GetRootData("NewStrategy");
+                if (shipStrategy != null && ship.gameObject != _shipAIBT.gameObject && (char) shipStrategy == 'D')
+                {
+                    score -= 500f;
+                }
+            } 
+        }
 
 
         return score / 2.0f;

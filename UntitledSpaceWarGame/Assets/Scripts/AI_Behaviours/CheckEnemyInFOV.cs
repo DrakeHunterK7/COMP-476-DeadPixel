@@ -49,8 +49,10 @@ namespace AI_Behaviours
 
                         if (agentScript != null)
                         {
-                            if (agentScript.shipInformation._team != ownerShip.shipInformation._team)
+                            Debug.Log("Engaging AI Enemy??");
+                            if (agentScript.GetShipData().GetTeam() != ownerShip.GetShipData().GetTeam())
                             {
+                                Debug.Log("Engaging AI Enemy!!");
                                 target = agentScript.gameObject;
                                 ownerShip.SetRootData("Target", target);
                                 break;
@@ -59,13 +61,15 @@ namespace AI_Behaviours
                         else
                         {
                             var playerScript = agent.GetComponent<ShipController>();
-                            
-                            if (playerScript.shipInformation._team != ownerShip.shipInformation._team)
+
+                            if (playerScript != null)
                             {
-                                Debug.Log("Player detected!");
-                                target = playerScript.gameObject;
-                                ownerShip.SetRootData("Target", target);
-                                break;
+                                if (playerScript.GetShipData().GetTeam() != ownerShip.GetShipData().GetTeam())
+                                {
+                                    target = playerScript.gameObject;
+                                    ownerShip.SetRootData("Target", target);
+                                    break;
+                                }
                             }
                             
                         }

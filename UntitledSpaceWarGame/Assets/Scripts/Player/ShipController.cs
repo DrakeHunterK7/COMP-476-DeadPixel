@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using TreeEditor;
 using UnityEngine;
 
@@ -30,9 +31,6 @@ public class ShipController : MonoBehaviour
 
     public Vector3 velocity;
 
-    public ShipInformation shipInformation;
-
-
     //Weapon UI References
     [Header ("Weapon UI References")]
     public GameObject _missileIcon;
@@ -56,13 +54,15 @@ public class ShipController : MonoBehaviour
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
-        shipInformation = new ShipInformation();
     }
 
     // Update is called once per frame
     void Update()
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward*100f, Color.yellow, 0.1f);
+
+        _forwardSpeed = GetShipData()._movementSpeed;
+        
         // Look rotation calculations
         _lookInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
@@ -121,7 +121,6 @@ public class ShipController : MonoBehaviour
             _weaponChanged = false;
         }
     }
-
 
     public void Shoot()
     {

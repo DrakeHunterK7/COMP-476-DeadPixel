@@ -27,11 +27,10 @@ public class Task_Evade : Node
         if (target != null)
         {
             //WRITE EVADE CODE HERE
-            Debug.Log("Evading!!");
+            Debug.Log("Evading!!"+ target.name);
             evadeMovement.SetTarget(target.transform);
             ownerAgent.SetActiveMovement(evadeMovement);
         }
-
 
         state = NodeState.RUNNING;
         return state;

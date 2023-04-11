@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AI;
 using AI_Behaviours;
 using BehaviourTree;
 using Unity.VisualScripting;
@@ -8,15 +9,15 @@ using Tree = BehaviourTree.Tree;
 
 public class ShipAIBT : Tree
 {
-    public List<UnityEngine.Transform> _waypoints;
-
     public ShipInformation shipInformation;
+    public Mothership mothership;
+    public AIAgent aiAgent;
 
     protected override Node SetupTree()
     {
-        shipInformation = new ShipInformation(Random.Range(0, 3), 2);
         Node root = new Selector(new List<Node> //REMEMBER: SELECTORS ACT AS "OR" LOGIC GATES
         {
+            new Task_UpdateParameters(this),
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
                 new CheckOutOfBounds(this),
@@ -41,29 +42,15 @@ public class ShipAIBT : Tree
                 new HelpTeammate(this)
             }),
             new CheckEnemyInFOV(this),
-            new Sequence(new List<Node>
-            { 
-                new CheckEnemyMotherships(this),
-                new Sequence(new List<Node>
-                    {
-                        new Task_GoToTarget(this),
-                        new CheckForAttackRange(this),
-                        new Attack(this)
-                    }
-                )
-            }),
-            // This should be called after any path that we calculate
-            //new Task_Follow_Path(transform, this) // TESTING WITH WAYPOINTS, NEED TO CHANGE AND GENERATE PATHFINDING BASED ON OTHER CONDITIONS
             new Sequence(new List<Node> 
             {
                 new Task_DecideBestStrategy(transform, shipInformation, this),
-                new Task_GeneratePath(this.transform, this),
-                new Task_Follow_Path(this.transform, this)
+                new Task_GeneratePath(transform, this),
+                new Task_Follow_Path(transform, this)
             })
 
 
         });
-
         return root;
     }
 
