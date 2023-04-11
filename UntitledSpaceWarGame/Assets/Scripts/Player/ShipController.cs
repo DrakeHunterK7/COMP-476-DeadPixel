@@ -83,6 +83,8 @@ public class ShipController : MonoBehaviour
 
         _forwardSpeed = GetShipData()._movementSpeed;
         
+        Debug.Log("My team is " + GetShipData().GetTeam());
+        
         // Look rotation calculations
         _lookInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
@@ -204,6 +206,7 @@ public class ShipController : MonoBehaviour
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
             var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
             b.GetComponent<Projectile>().direction = forwarddir;
+            b.GetComponent<Projectile>().ownerShip = gameObject;
             b.GetComponent<Gun>()._attackStrength = _shipData.GetAttackForce();
         }
     }

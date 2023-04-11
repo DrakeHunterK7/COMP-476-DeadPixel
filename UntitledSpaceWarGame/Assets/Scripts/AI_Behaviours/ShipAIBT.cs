@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AI;
 using AI_Behaviours;
@@ -12,6 +13,8 @@ public class ShipAIBT : Tree
     public ShipInformation shipInformation;
     public Mothership mothership;
     public AIAgent aiAgent;
+    public GameObject _shootpoint;
+    public GameObject _bulletPrefab;
 
     protected override Node SetupTree()
     {
@@ -36,11 +39,6 @@ public class ShipAIBT : Tree
                     new Task_Chase(this)
                 })
             }),
-            new Sequence(new List<Node>
-            { 
-                new CheckTeammateInNeed(this),
-                new HelpTeammate(this)
-            }),
             new CheckEnemyInFOV(this),
             new Sequence(new List<Node> 
             {
@@ -48,10 +46,18 @@ public class ShipAIBT : Tree
                 new Task_GeneratePath(transform, this),
                 new Task_Follow_Path(transform, this)
             })
-
-
         });
         return root;
+    }
+    
+    public void Shoot()
+    {
+        var forwarddir = (_shootpoint.transform.position - transform.position).normalized;
+        
+        var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
+        b.GetComponent<Projectile>().direction = forwarddir;
+        b.GetComponent<Projectile>().ownerShip = gameObject;
+        b.GetComponent<Gun>()._attackStrength = GetShipData().GetAttackForce();
     }
 
     public void SetRootData(string key, object value)
@@ -62,6 +68,11 @@ public class ShipAIBT : Tree
     public object GetRootData(string key)
     {
         return root.GetData(key);
+    }
+    
+    public object ClearRootData(string key)
+    {
+        return root.ClearData(key);
     }
 
     public ShipInformation GetShipData()
@@ -77,5 +88,16 @@ public class ShipAIBT : Tree
     public void SetShipData(ShipInformation newShipInfo)
     {
         shipInformation = new ShipInformation(newShipInfo);
+    }
+
+    private void OnDestroy()
+    {
+        // GameObject target = (GameObject) GetRootData("Target");
+        //
+        // if (target != null)
+        // {
+        //     target.GetComponent<ShipAIBT>().ClearRootData("Target");
+        //     ClearRootData("Target");
+        // }
     }
 }

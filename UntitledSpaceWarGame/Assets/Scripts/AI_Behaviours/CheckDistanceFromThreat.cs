@@ -20,14 +20,22 @@ namespace AI_Behaviours
 
             if (target != null)
             {
-                if(Vector3.Distance(target.transform.position, ownerShip.transform.position) < 250
-                   && Vector3.Dot(target.transform.forward, (ownerShip.transform.position - target.transform.position)) > 0.8f)
+                if(Vector3.Distance(target.transform.position, ownerShip.transform.position) < 300
+                   && Vector3.Dot(target.transform.forward, (ownerShip.transform.position - target.transform.position)) > 0.65f)
                 {
                     state = NodeState.SUCCESS;
                     return state;
                 }
+
+                if (Vector3.Distance(target.transform.position, ownerShip.transform.position) > 1250)
+                {
+                    target.GetComponent<ShipAIBT>().ClearRootData("Target");
+                    ownerShip.ClearRootData("Target");
+                }
             }
             
+            
+
             state = NodeState.FAILURE;
             return state;
         }

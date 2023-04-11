@@ -54,6 +54,7 @@ namespace AI_Behaviours
                             {
                                 Debug.Log("Engaging AI Enemy!!");
                                 target = agentScript.gameObject;
+                                ownerShip.ClearRootData("Target");
                                 ownerShip.SetRootData("Target", target);
                                 break;
                             }
@@ -64,9 +65,11 @@ namespace AI_Behaviours
 
                             if (playerScript != null)
                             {
+                                Debug.Log("Engaging Player!!");
                                 if (playerScript.GetShipData().GetTeam() != ownerShip.GetShipData().GetTeam())
                                 {
                                     target = playerScript.gameObject;
+                                    ownerShip.ClearRootData("Target");
                                     ownerShip.SetRootData("Target", target);
                                     break;
                                 }

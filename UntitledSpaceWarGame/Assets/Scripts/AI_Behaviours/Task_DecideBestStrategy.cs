@@ -130,10 +130,10 @@ public class Task_DecideBestStrategy : Node
         {
             foreach (var ship in _shipAIBT.mothership.ships)
             {
+                if (ship == null || _shipAIBT == null) continue;
                 var shipStrategy = ship.GetRootData("NewStrategy");
                 if (shipStrategy != null && ship.gameObject != _shipAIBT.gameObject && (char) shipStrategy == 'A')
                 {
-                    Debug.Log("Reduction!!");
                     score -= 500f;
                 }
             } 

@@ -10,6 +10,8 @@ public class  Task_Chase : Node
     private Pursue chaseMovement;
     private AIAgent ownerAgent;
 
+    private float shootTimer = 0.1f;
+
     public Task_Chase(ShipAIBT ownerShip)
     {
         owner = ownerShip;
@@ -23,11 +25,23 @@ public class  Task_Chase : Node
 
         if (target != null)
         {
-            //WRITE CHASE CODE HERE
-            
             chaseMovement.SetTarget(target.transform);
             ownerAgent.SetActiveMovement(chaseMovement);
-            
+
+            if (Vector3.Dot(owner.transform.forward.normalized,
+                    (target.transform.position - owner.transform.position).normalized) > 0.9f)
+            {
+                shootTimer -= Time.deltaTime;
+                if (shootTimer < 0)
+                {
+                    owner.Shoot();
+                    shootTimer = 0.1f;
+                }
+            }
+            else
+            {
+                shootTimer = 0.1f;
+            }
         }
 
 

@@ -12,7 +12,7 @@ public class Evade : AIMovement
     private float _lookAheadTime = 1.0f;
     private Vector3 randomUpVector;
     private float rotationTimer = 0f;
-    private float steerTimer = 5f;
+    private float steerTimer = 2f;
 
     public override SteeringOutput GetMovement(AIAgent agent)
     {
@@ -44,10 +44,10 @@ public class Evade : AIMovement
         steerTimer -= Time.deltaTime;
         if (steerTimer < 0)
         {
-            steerTimer = 5f;
+            steerTimer = 2f;
             if (Random.Range(0, 100) > 50f)
             {
-                _lookAheadTime = Random.Range(0, 100) > 50 ? 10 : 100;
+                _lookAheadTime = Random.Range(0, 100) > 50 ? 200 : 300;
             }
             else
             {

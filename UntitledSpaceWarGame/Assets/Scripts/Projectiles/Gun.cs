@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gun : Projectile
 {
-    private float bulletspeed = 1000f;
+    private float bulletspeed = 2000f;
 
     public float _attackStrength;
 
@@ -29,9 +29,23 @@ public class Gun : Projectile
     {
         transform.position += direction * bulletspeed * Time.deltaTime;
 
-        if (Vector3.Distance(startpos, transform.position) > 1000f)
+        if (Vector3.Distance(startpos, transform.position) > 1500f)
         {
             Destroy(this.gameObject);
+        }
+
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hitData;
+
+        if (Physics.Raycast(ray, out hitData, 500f, LayerMask.GetMask("Ships")))
+        {
+            var hitObject = hitData.collider.gameObject;
+
+            if (hitObject.GetComponent<ShipAIBT>() != null)
+            {
+                var script = hitObject.GetComponent<ShipAIBT>();
+                script.SetRootData("Target", ownerShip);
+            }
         }
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100f);
@@ -54,6 +68,8 @@ public class Gun : Projectile
             {
                 if (entity != null)
                 {
+                    if (entity.gameObject == ownerShip) continue;
+                    
                     if (collider.bounds.Intersects(entity.bounds))
                     {
                         if (entity.gameObject.tag == "Player")
@@ -65,6 +81,10 @@ public class Gun : Projectile
                             if (entity.gameObject.GetComponent<ShipAIBT>().GetShipData().TakeDamage(_attackStrength))
                             {
                                 Instantiate(_explosion, entity.gameObject.transform.position, entity.gameObject.transform.rotation);
+                                entity.gameObject.GetComponent<ShipAIBT>().mothership._teamShips
+                                    .Remove(entity.gameObject);
+                                entity.gameObject.GetComponent<ShipAIBT>().mothership.ships
+                                    .Remove(entity.gameObject.GetComponent<ShipAIBT>());
                                 Destroy(entity.gameObject);
                             }
                         }

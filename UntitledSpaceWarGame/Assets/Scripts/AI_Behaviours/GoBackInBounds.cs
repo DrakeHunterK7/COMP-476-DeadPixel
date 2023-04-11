@@ -19,7 +19,7 @@ namespace AI_Behaviours
 
         public override NodeState Evaluate()
         {
-            GameObject mothership = (GameObject) ownerShip.GetRootData("Mothership");
+            GameObject mothership = ownerShip.mothership.gameObject;
 
             if (mothership != null)
             {
