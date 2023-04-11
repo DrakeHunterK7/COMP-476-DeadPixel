@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4099976521913823028}
   m_Layer: 0
   m_Name: LaserBullet
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,3 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
+  ownerShip: {fileID: 0}
+  _attackStrength: 0
+  _explosion: {fileID: 0}

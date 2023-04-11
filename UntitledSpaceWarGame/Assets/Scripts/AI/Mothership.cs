@@ -24,21 +24,28 @@ public class Mothership : MonoBehaviour
     //Team ship
     [HideInInspector] public List<GameObject> _teamShips;
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            TakeDamage(15f);
-        }
-    }
+    //Colliders Variables
+    private List<Collider> _projectiles = new List<Collider>();
+    private Collider _mothershipCollider;
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
+        SetMaxHP(_maxHealth);
         ships = new List<ShipAIBT>();
         _teamShips = new List<GameObject>();
+        _mothershipCollider = gameObject.GetComponent<Collider>();
     }
-    
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            TakeDamage(10f);
+        }
+
+        CheckForCollisions();
+    }
+
     public void SetMaxHP(float maxHP)
     {
         _hpSlider.maxValue = maxHP;
@@ -84,5 +91,74 @@ public class Mothership : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public void CheckForCollisions()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 250f);
 
+        if (hitColliders.Length > 0)
+        {
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.gameObject.CompareTag("Projectile"))
+                {
+                    if (hitCollider.gameObject.GetComponent<Gun>().ownerShip.tag == "AI")
+                    {
+                        ShipInformation ai = hitCollider.gameObject.GetComponent<Gun>().ownerShip.GetComponent<ShipAIBT>().GetShipData();
+                        int team = ai.GetTeam();
+
+                        if (team != _team)
+                        {
+                            if (!_projectiles.Contains(hitCollider))
+                                _projectiles.Add(hitCollider);
+                        }
+                        else
+                            Destroy(hitCollider.gameObject);
+                    }
+                    else
+                    {
+                        ShipInformation player = hitCollider.gameObject.GetComponent<Gun>().ownerShip.GetComponent<ShipController>().GetShipData();
+                        int team = player.GetTeam();
+
+                        if (team != _team)
+                        {
+                            if (!_projectiles.Contains(hitCollider))
+                                _projectiles.Add(hitCollider);
+                        }
+                        else
+                            Destroy(hitCollider.gameObject);
+                    }
+                }
+            }
+        }
+
+        if (_projectiles.Count > 0)
+        {
+            foreach (Collider projectile in _projectiles)
+            {
+                if (projectile != null)
+                {
+                    if (_mothershipCollider.bounds.Intersects(projectile.bounds))
+                    {
+                        float AttackStrength;
+                        if (projectile.gameObject.GetComponent<Gun>().ownerShip.gameObject.tag == "Player")
+                        {
+                            AttackStrength = projectile.gameObject.GetComponent<Gun>().ownerShip.gameObject.GetComponent<ShipController>().GetShipData().GetAttackForce();
+                        }
+                        else
+                        {
+                            AttackStrength = projectile.gameObject.GetComponent<Gun>().ownerShip.gameObject.GetComponent<ShipAIBT>().GetShipData().GetAttackForce();
+                        }
+
+                        TakeDamage(AttackStrength);
+                        Destroy(projectile.gameObject);
+                    }
+                }
+                else
+                {
+                    _projectiles.Remove(projectile);
+                    break;
+                }
+            }
+        }
+    }
 }

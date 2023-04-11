@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.058499232, g: 0.034016777, b: 0.013992452, a: 1}
+  m_IndirectSpecularColor: {r: 0.058490183, g: 0.034027055, b: 0.01399624, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -31101,6 +31101,17 @@ Transform:
   m_Father: {fileID: 85465345}
   m_RootOrder: 879
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &826795629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4526815099288833939, guid: f197ea64cafe93b4182c9811f7033178, type: 3}
+  m_PrefabInstance: {fileID: 4526815098144024254}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c4c878ec144c6e4e8e6ef5cdfa9f898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &829909540
 GameObject:
   m_ObjectHideFlags: 0
@@ -57992,6 +58003,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8440520497121940756}
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _forwardSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _levelManager
+      value: 
+      objectReference: {fileID: 826795629}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _laserCrossair
       value: 
       objectReference: {fileID: 569010016}
@@ -78133,6 +78152,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1311628321}
+    - target: {fileID: 6925101673244747023, guid: 3eda74fabd22f2d4faceb09fc74fa7c0, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 6925101673264938917, guid: 3eda74fabd22f2d4faceb09fc74fa7c0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
