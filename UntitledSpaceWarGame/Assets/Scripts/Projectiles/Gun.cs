@@ -7,6 +7,7 @@ public class Gun : Projectile
     private float bulletspeed = 2000f;
 
     public float _attackStrength;
+    public GameObject destroyPrefab;
 
     private List<Collider> damageableentities = new List<Collider>();
 
@@ -89,6 +90,7 @@ public class Gun : Projectile
                             }
                         }
 
+                        Instantiate(destroyPrefab, entity.gameObject.transform.position, entity.gameObject.transform.rotation);
                         Destroy(this.gameObject);
                     }
                 }

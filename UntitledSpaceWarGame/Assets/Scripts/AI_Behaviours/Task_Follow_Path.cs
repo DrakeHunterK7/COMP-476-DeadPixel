@@ -45,22 +45,27 @@ public class Task_Follow_Path : Node
     public override NodeState Evaluate()
     {
         _path = (List<Vector3>)_BT.GetRootData("Current_Path");
-        _currentPathIndex = (int)_BT.GetRootData("Current_Path_Index");
+        var newPath = _BT.GetRootData("Current_Path_Index");
 
-        // Current waypoint that the player is trying to get to
-        Vector3 currentNodePos = _path[_currentPathIndex % _path.Count];
-
-        // AI has arrived at the target position
-        if(Vector3.Distance(_transform.position, currentNodePos) < 15.0f)
+        if (newPath != null)
         {
-            _currentPathIndex++;
-            _BT.SetRootData("Current_Path_Index", _currentPathIndex);
-        }
+            _currentPathIndex = (int) newPath;
 
-        if(currentNodePos != null)
-        {
-            _seek.SetTargetPosition(currentNodePos);
-            _aiAgent.SetActiveMovement(_seek);
+            // Current waypoint that the player is trying to get to
+            Vector3 currentNodePos = _path[_currentPathIndex % _path.Count];
+
+            // AI has arrived at the target position
+            if(Vector3.Distance(_transform.position, currentNodePos) < 15.0f)
+            {
+                _currentPathIndex++;
+                _BT.SetRootData("Current_Path_Index", _currentPathIndex);
+            }
+
+            if(currentNodePos != null)
+            {
+                _seek.SetTargetPosition(currentNodePos);
+                _aiAgent.SetActiveMovement(_seek);
+            }
         }
         
         state = NodeState.RUNNING;

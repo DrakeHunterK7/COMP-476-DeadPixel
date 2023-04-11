@@ -61,8 +61,8 @@ public class Task_DecideBestStrategy : Node
         float[] strategyScores =
         {
             CalculateStrategyA(),
-            CalculateStrategyB(),
-            CalculateStrategyC(),
+            (_enemyMotherShipA == null) ? -100000 : CalculateStrategyB(),
+            (_enemyMotherShipB == null) ? -100000 : CalculateStrategyC(),
             CalculateStrategyD()
         };
 
@@ -105,8 +105,8 @@ public class Task_DecideBestStrategy : Node
     {
         float score = 0.0f;
 
-        // Team motheship health
-        score += (Mothership._maxHealth - _teamMotherShip._currentHealth / Mothership._maxHealth);                                                                        // Current AI health
+        // Team mothership health
+        score += (Mothership._maxHealth - _teamMotherShip._currentHealth);                                                                        // Current AI health
            
         // Enemies near team mothership
         Collider[] shipsNearMS = Physics.OverlapSphere(_teamMotherShip.transform.position, 2000.0f, 1 << 6);
@@ -153,7 +153,7 @@ public class Task_DecideBestStrategy : Node
         float score = 0.0f;
 
         // Enemy mothership health
-        score += (Mothership._maxHealth - _enemyMotherShipA._currentHealth / Mothership._maxHealth);                                                                        // Current AI health
+        score += (Mothership._maxHealth - _enemyMotherShipA._currentHealth);                                                                        // Current AI health
                                                                                                                                                 // Enemies near mothership
 
         // Enemies near Mothership A
@@ -203,7 +203,7 @@ public class Task_DecideBestStrategy : Node
         float score = 0.0f;
 
         // Enemy mothership health
-        score += (Mothership._maxHealth - _enemyMotherShipB._currentHealth / Mothership._maxHealth);                                                                         // Current AI health
+        score += (Mothership._maxHealth - _enemyMotherShipB._currentHealth);                                                                         // Current AI health
                                                                                                                                                   // Enemies near mothership
 
         // Enemies near Mothership A
@@ -248,7 +248,6 @@ public class Task_DecideBestStrategy : Node
     private float CalculateStrategyD()
     {
         float score = 0.0f;
-
 
         // AI Current Health
         score += (100 -  _shipInformation._hp) / 100.0f;

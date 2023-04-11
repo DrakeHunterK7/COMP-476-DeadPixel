@@ -29,7 +29,8 @@ namespace AI_Behaviours
 
                 if (Vector3.Distance(target.transform.position, ownerShip.transform.position) > 1250)
                 {
-                    target.GetComponent<ShipAIBT>().ClearRootData("Target");
+                    if(target.GetComponent<ShipAIBT>() != null)
+                        target.GetComponent<ShipAIBT>().ClearRootData("Target");
                     ownerShip.ClearRootData("Target");
                 }
             }

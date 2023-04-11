@@ -40,7 +40,7 @@ public class Mothership : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.L))
         {
-            TakeDamage(10f);
+            TakeDamage(10f, null);
         }
 
         CheckForCollisions();
@@ -60,7 +60,7 @@ public class Mothership : MonoBehaviour
         _hpFill.color = _hpGradient.Evaluate(_hpSlider.normalizedValue);
     }
 
-    public void TakeDamage(float AttackForce)
+    public void TakeDamage(float AttackForce, GameObject attacker)
     {
         if (_currentHealth > AttackForce)
         {
@@ -75,7 +75,16 @@ public class Mothership : MonoBehaviour
 
         if (_currentHealth > 0)
         {
+            AlertTeam(attacker);
             SetHealth(_currentHealth);
+        }
+    }
+
+    public void AlertTeam(GameObject target)
+    {
+        foreach (var ship in ships)
+        {
+            ship.SetRootData("Target", target);
         }
     }
 
@@ -149,7 +158,7 @@ public class Mothership : MonoBehaviour
                             AttackStrength = projectile.gameObject.GetComponent<Gun>().ownerShip.gameObject.GetComponent<ShipAIBT>().GetShipData().GetAttackForce();
                         }
 
-                        TakeDamage(AttackStrength);
+                        TakeDamage(AttackStrength, projectile.gameObject.GetComponent<Gun>().ownerShip);
                         Destroy(projectile.gameObject);
                     }
                 }

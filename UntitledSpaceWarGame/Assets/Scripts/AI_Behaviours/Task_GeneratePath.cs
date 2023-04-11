@@ -22,19 +22,26 @@ public class Task_GeneratePath : Node
 
     public override NodeState Evaluate()
     {
-        Vector3 destinationPos = (Vector3) _aiBT.GetRootData("PathfindEndPosition");
-        char newStrategy = (char)_aiBT.GetRootData("NewStrategy");
+        var newPathPositionObject = _aiBT.GetRootData("PathfindEndPosition");
 
-        // This will update the path if a new strategy is chosen
-        if(newStrategy != _currentStrategy)
+        if (newPathPositionObject != null)
         {
-            List<Vector3> path = _pathfinding.AStarLoop(destinationPos);
+            Vector3 destinationPos = (Vector3) newPathPositionObject;
+            char newStrategy = (char)_aiBT.GetRootData("NewStrategy");
 
-            _aiBT.SetRootData("Current_Path", path);
-            _aiBT.SetRootData("Current_Path_Index", 0);
+            // This will update the path if a new strategy is chosen
+            if(newStrategy != _currentStrategy)
+            {
+                List<Vector3> path = _pathfinding.AStarLoop(destinationPos);
 
-            _currentStrategy = newStrategy;
+                _aiBT.SetRootData("Current_Path", path);
+                _aiBT.SetRootData("Current_Path_Index", 0);
+
+                _currentStrategy = newStrategy;
+            }
         }
+        
+       
 
         state = NodeState.RUNNING;
         return state;

@@ -216,12 +216,17 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        _gameOverUI.SetActive(true);
+        if(_gameOverUI != null)
+            _gameOverUI.SetActive(true);
 
         if (isDead || _motherships[_teamSelected] == null)
         {
-            _winnerText.text = "FAILED TO CONQUER THE BATTLEFIELD...";
-            _winnerText.color = _enemyColor;
+            if (_winnerText != null)
+            {
+                            
+                _winnerText.text = "FAILED TO CONQUER THE BATTLEFIELD...";
+                _winnerText.color = _enemyColor;
+            }
             return;
         }
 

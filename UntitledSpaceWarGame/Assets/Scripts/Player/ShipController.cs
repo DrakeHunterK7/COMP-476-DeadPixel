@@ -202,7 +202,7 @@ public class ShipController : MonoBehaviour
                 {
                     if (hit.collider.gameObject.GetComponent<Mothership>()._team != _shipData.GetTeam())
                     {
-                        hit.collider.gameObject.GetComponent<Mothership>().TakeDamage(_shipData.GetAttackForce() * _laserStrength);
+                        hit.collider.gameObject.GetComponent<Mothership>().TakeDamage(_shipData.GetAttackForce() * _laserStrength, gameObject);
                     }
                 }
             }
@@ -282,7 +282,8 @@ public class ShipController : MonoBehaviour
     public void OnDestroy()
     {
         //Stop the Camera from following the player
-        Camera.main.GetComponent<CameraMovementMenu>().enabled = false;
+        if(Camera.main != null)
+            Camera.main.GetComponent<CameraMovementMenu>().enabled = false;
         _levelManager.EndGame(true);
     }
 
