@@ -22,40 +22,41 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider _energySlider;
     [SerializeField] private Gradient _energyGradient;
     [SerializeField] private Image _energyFill;
-    public void SetMaxHP(int maxHP)
+
+    public void SetMaxHP(float maxHP)
     {
         _hpSlider.maxValue = maxHP;
         _hpSlider.value = maxHP;
         _hpFill.color = _hpGradient.Evaluate(1f);
     }
 
-    public void SetHealth(int value)
+    public void SetHealth(float value)
     {
         _hpSlider.value = value;
         _hpFill.color = _hpGradient.Evaluate(_hpSlider.normalizedValue);
     }
 
-    public void SetMaxShieldHP(int maxShieldHP)
+    public void SetMaxShieldHP(float maxShieldHP)
     {
         _shieldSlider.maxValue = maxShieldHP;
         _shieldSlider.value = maxShieldHP;
         _shieldHpFill.color = _shieldHpGradient.Evaluate(1f);
     }
 
-    public void SetShieldHP(int value)
+    public void SetShieldHP(float value)
     {
         _shieldSlider.value = value;
         _shieldHpFill.color = _shieldHpGradient.Evaluate(_shieldSlider.normalizedValue);
     }
 
-    public void SetMaxEnergy(int maxEnergy)
+    public void SetMaxEnergy(float maxEnergy)
     {
         _energySlider.maxValue = maxEnergy;
         _energySlider.value = maxEnergy;
         _energyFill.color = _energyGradient.Evaluate(1f);
     }
 
-    public void SetEnergy(int value)
+    public void SetEnergy(float value)
     {
         _energySlider.value = value;
         _energyFill.color = _energyGradient.Evaluate(_energySlider.normalizedValue);

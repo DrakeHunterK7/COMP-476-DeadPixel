@@ -158,6 +158,28 @@ public class ShipInformation
         _shieldHp = 50f * defenseMultiplier;
     }
 
+    public void TakeDamage(float AttackForce)
+    {
+        if (_shieldHp > AttackForce)
+        {
+            _shieldHp -= AttackForce;
+        }
+        else if (_shieldHp > 0)
+        {
+            AttackForce -= _shieldHp;
+            _shieldHp = 0;
+        }
+        else if (_hp > AttackForce)
+        {
+            _hp -= AttackForce;
+        }
+        else
+        {
+            //SHIP DESTROYED
+            _hp = 0;
+        }
+    }
+
     public int GetTeam()
     {
         return _team;
@@ -166,6 +188,16 @@ public class ShipInformation
     public int GetShipType()
     {
         return _shipType;
+    }
+
+    public float GetHP()
+    {
+        return _hp;
+    }
+
+    public float GetShieldHP()
+    {
+        return _shieldHp;
     }
 
     public override string ToString()

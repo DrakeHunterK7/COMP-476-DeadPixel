@@ -29,6 +29,7 @@ public class ShipController : MonoBehaviour
     public GameObject _laserPrefab;
     private bool _weaponChanged = false;
 
+    [HideInInspector]
     public Vector3 velocity;
 
     //Weapon UI References
@@ -38,9 +39,8 @@ public class ShipController : MonoBehaviour
     public GameObject _laserIcon;
     public GameObject _laserCrossair;
 
-    //Ship Information
+    //Ship Information Reference
     private ShipInformation _shipData;
-
 
     private float _forwardAcceleration = 2.5f, _strafeAcceleration = 2f, _hoverAcceleration = 2f;
     private float _rollAcceleration = 3.5f;
@@ -49,11 +49,14 @@ public class ShipController : MonoBehaviour
 
     private Vector2 _lookInput, _centerOfScreen, _mouseDistance;
 
+    private LineRenderer laserLine;
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         _centerOfScreen.x = Screen.width / 2;
         _centerOfScreen.y = Screen.height / 2;
+        laserLine = gameObject.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -82,7 +85,6 @@ public class ShipController : MonoBehaviour
 
 
         // Apply Transformation
-        velocity = transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
         transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
         transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
@@ -90,9 +92,25 @@ public class ShipController : MonoBehaviour
         // Apply Rotation
         transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+
+        if (!_weaponChanged)
         {
-            Shoot();
+            laserLine.enabled = false;
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+            else
+            {
+                laserLine.enabled = false;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -129,19 +147,31 @@ public class ShipController : MonoBehaviour
         if (_weaponChanged)
         {
             //TODO: Add a laser prefab
-            var b = Instantiate(_laserPrefab, _shootpoint.transform.position, Quaternion.identity);
-            //var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
-            var projScript = b.GetComponent<Projectile>();
-            projScript.direction = forwarddir;
-            projScript.ownerShip = gameObject;
+            //var b = Instantiate(_laserPrefab, _shootpoint.transform.position, transform.rotation);
+            ////var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, Quaternion.identity);
+            //b.GetComponent<Projectile>().direction = forwarddir;
+            
+            laserLine.SetPosition(0, _shootpoint.transform.position);
+            laserLine.enabled = true;
+            RaycastHit hit;
+
+            if (Physics.Raycast(_shootpoint.transform.position, forwarddir, out hit, 1000f))
+            {
+                laserLine.SetPosition(1, hit.point);
+            }
+            else
+            {
+                laserLine.SetPosition(1, _shootpoint.transform.position + (forwarddir * 1000f));
+            }
+
         }
         else
         {
             //var aimDirection = Vector3.Normalize(transform.position + forwarddir);
-            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, gameObject.transform.rotation);
-            var projScript = b.GetComponent<Projectile>();
-            projScript.direction = forwarddir;
-            projScript.ownerShip = gameObject;
+            var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
+            b.GetComponent<Projectile>().direction = forwarddir;
+
+
         }
         
     }
