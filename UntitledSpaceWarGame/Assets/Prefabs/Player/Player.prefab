@@ -971,6 +971,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7385368751221158061}
   - component: {fileID: 4312535396959567595}
+  - component: {fileID: 2634092626539576397}
   - component: {fileID: 6401631698497983729}
   - component: {fileID: 1668092836}
   - component: {fileID: 6360718512862274860}
@@ -1031,6 +1032,18 @@ MonoBehaviour:
   _laserStrength: 0.025
   _explosion: {fileID: 2994049833057877991, guid: bdafa105848a31d4b8915a64b96d5c98, type: 3}
   _levelManager: {fileID: 0}
+--- !u!114 &2634092626539576397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385368751221158058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136d721bb283bee498a1cc6eed60869b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &6401631698497983729
 LineRenderer:
   m_ObjectHideFlags: 0

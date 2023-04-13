@@ -16,7 +16,7 @@ public class CheckDirectThreats : Node
 
         if (willbehit != null)
         {
-            Debug.Log(willbehit);
+            //Debug.Log(willbehit);
             state = NodeState.SUCCESS;
             return state;
         }

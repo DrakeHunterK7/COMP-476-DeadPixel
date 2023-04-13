@@ -7624,7 +7624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3542583171934372912, guid: 7ab7182dab3cfce488cd5fa578f88b85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -23.7
       objectReference: {fileID: 0}
     - target: {fileID: 3542583171934372912, guid: 7ab7182dab3cfce488cd5fa578f88b85, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57999,9 +57999,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8440520497121940755}
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _rollSpeed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _hoverSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _missileIcon
       value: 
       objectReference: {fileID: 8440520497121940756}
+    - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
+      propertyPath: _strafeSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4312535396959567595, guid: 4f18741adf774e443acb0fc92ea8a283, type: 3}
       propertyPath: _forwardSpeed
       value: 200
