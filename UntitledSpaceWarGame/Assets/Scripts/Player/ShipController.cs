@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using AI;
-using TreeEditor;
 using UnityEngine;
 
 
