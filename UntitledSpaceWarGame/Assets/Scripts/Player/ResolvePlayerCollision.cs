@@ -25,6 +25,8 @@ public class ResolvePlayerCollision : MonoBehaviour
 
         foreach(Collider collider in _collidersInRange)
         {
+            if (collider == null) continue;
+            
             if(_playerCollider.bounds.Intersects(collider.bounds))
             {
                 _collided = true;

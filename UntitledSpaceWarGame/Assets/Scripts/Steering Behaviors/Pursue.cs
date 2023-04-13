@@ -33,11 +33,18 @@ public class Pursue : AIMovement
         if (targetAgent == null)
         {
             targetPlayer = _target.GetComponent<ShipController>();
-            targetVelocity = targetPlayer.velocity;
+            
+            if(targetPlayer != null)
+                targetVelocity = targetPlayer.velocity;
         }
         else
         {
             targetVelocity = targetAgent._velocity;
+        }
+
+        if (targetAgent == null && targetPlayer == null)
+        {
+            targetVelocity = Vector3.zero;
         }
 
 

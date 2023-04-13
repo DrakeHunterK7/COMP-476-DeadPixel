@@ -28,6 +28,11 @@ public class ShipAIBT : Tree
             }),
             new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
             {
+                new CheckForEnemyMothership(this),
+                new MoveAndShootAtMothership(this)
+            }),
+            new Sequence(new List<Node> //REMEMBER: SEQUENCES ACT AS "AND" LOGIC GATES
+            {
                 new CheckDirectThreats(this),
                 new Selector(new List<Node>
                 {
@@ -54,7 +59,7 @@ public class ShipAIBT : Tree
     {
         var forwarddir = (_shootpoint.transform.position - transform.position).normalized;
         
-        var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, transform.rotation);
+        var b = Instantiate(_bulletPrefab, _shootpoint.transform.position, gameObject.transform.rotation);
         b.GetComponent<Projectile>().direction = forwarddir;
         b.GetComponent<Projectile>().ownerShip = gameObject;
         b.GetComponent<Gun>()._attackStrength = GetShipData().GetAttackForce();
@@ -67,7 +72,9 @@ public class ShipAIBT : Tree
     
     public object GetRootData(string key)
     {
-        return root.GetData(key);
+        if (root != null) return root.GetData(key);
+        
+        return null;
     }
     
     public object ClearRootData(string key)

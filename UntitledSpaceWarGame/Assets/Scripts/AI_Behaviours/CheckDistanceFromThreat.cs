@@ -34,6 +34,10 @@ namespace AI_Behaviours
                     ownerShip.ClearRootData("Target");
                 }
             }
+            else
+            {
+                ownerShip.ClearRootData("Target");
+            }
             
             
 
