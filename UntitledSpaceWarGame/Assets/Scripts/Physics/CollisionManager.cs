@@ -54,6 +54,12 @@ public class CollisionManager : MonoBehaviour
 
     private void ResolveCollision(Collider obstacleCollider)
     {
+        if(obstacleCollider.tag == "Player")
+        {
+            ResolveCollisionWithPlayer(obstacleCollider);
+            return;
+        }
+
         Collider collider1 = _collider;
         Collider collider2 = obstacleCollider;
 
@@ -99,6 +105,51 @@ public class CollisionManager : MonoBehaviour
         // Apply the torque to the colliding objects
         physicsObject1._rotation += torque / physicsObject1._mass * tangent.normalized * Time.deltaTime;
         physicsObject2._rotation += -torque / physicsObject2._mass * tangent.normalized * Time.deltaTime;
+    }
+
+    public void ResolveCollisionWithPlayer(Collider playerCollider)
+    {
+        Collider collider1 = _collider;
+        ObstaclePhysics physicsObject1 = collider1.GetComponent<ObstaclePhysics>();
+
+        // Get the points of intersection
+        // This is wrong
+        Vector3 intersectionPoint1 = collider1.ClosestPoint(playerCollider.transform.position);
+        Vector3 intersectionPoint2 = playerCollider.ClosestPoint(collider1.transform.position);
+
+        // Calculate the penetration depth
+        float depth = (intersectionPoint1 - intersectionPoint2).magnitude;
+
+        // Calculate the collision normal and tangent
+        Vector3 normal = (intersectionPoint2 - intersectionPoint1).normalized;
+        Vector3 tangent = Vector3.Cross(Vector3.up, normal);
+
+        // Apply the collision response
+        //transform.position -= depth * normal;
+
+        // Calculate the relative velocity of the colliding objects
+        Vector3 relativeVelocity = playerCollider.transform.position - transform.position;
+
+        // Calculate the impulse along the collision normal
+        float impulse = Vector3.Dot(relativeVelocity, normal)
+            //* GetComponent<MeshFilter>().sharedMesh.bounds.size.magnitude
+            * (1 / physicsObject1._mass + 1 / 10.0f);
+
+        // Apply the impulse to the colliding objects
+        physicsObject1._velocity = -impulse / physicsObject1._mass * normal;
+        Debug.Log("ASTEROID VELOCITY: " + physicsObject1._velocity);
+
+        //
+        //collider1.transform.position -= impulse * normal.normalized;
+        //collider2.transform.position += impulse * normal.normalized;
+
+        // Calculate the torque along the collision tangent
+        float torque = Vector3.Dot(relativeVelocity, tangent)
+            * (1 / physicsObject1._mass + 1 / 30.0f)
+            * _torqueMultiplier;// * GetComponent<MeshFilter>().sharedMesh.bounds.size.magnitude;
+
+        // Apply the torque to the colliding objects
+        physicsObject1._rotation += torque / physicsObject1._mass * tangent.normalized * Time.deltaTime;
     }
 
 

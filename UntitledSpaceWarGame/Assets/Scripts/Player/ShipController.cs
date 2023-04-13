@@ -17,7 +17,7 @@ public class ShipController : MonoBehaviour
 
     public float _rollSpeed = 90f;
 
-    private float _activeForwardSpeed;
+    public float _activeForwardSpeed;
     private float _activeStrafeSpeed;
     private float _activeHoverSpeed;
         
@@ -99,17 +99,25 @@ public class ShipController : MonoBehaviour
         // Roll rotation calculations
         _rollInput = Mathf.Lerp(_rollInput, Input.GetAxisRaw("Roll"), _rollAcceleration * Time.deltaTime);
 
-      
-        // Movement calculations
-        _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, Input.GetAxisRaw("Vertical") * _forwardSpeed, _forwardAcceleration * Time.deltaTime);
-        _activeStrafeSpeed = Mathf.Lerp(_activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * _strafeSpeed, _strafeAcceleration * Time.deltaTime);
-        _activeHoverSpeed = Mathf.Lerp(_activeHoverSpeed, Input.GetAxisRaw("Hover") * _hoverSpeed, _hoverAcceleration * Time.deltaTime);
-
-
         // Apply Transformation
-        transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
-        transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
-        transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
+        if(_canMove)
+        {
+            // Movement calculations
+            _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, Input.GetAxisRaw("Vertical") * _forwardSpeed, _forwardAcceleration * Time.deltaTime);
+            _activeStrafeSpeed = Mathf.Lerp(_activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * _strafeSpeed, _strafeAcceleration * Time.deltaTime);
+            _activeHoverSpeed = Mathf.Lerp(_activeHoverSpeed, Input.GetAxisRaw("Hover") * _hoverSpeed, _hoverAcceleration * Time.deltaTime);
+
+            transform.position += transform.forward * _activeForwardSpeed * Time.deltaTime;
+            transform.position += transform.right * _activeStrafeSpeed * Time.deltaTime;
+            transform.position += transform.up * _activeHoverSpeed * Time.deltaTime;
+        }
+        else
+        {
+            if(_activeForwardSpeed > 0.0f)
+            {
+                _activeForwardSpeed = 0.0f;
+            }
+        }
 
         // Apply Rotation
         transform.Rotate(-_mouseDistance.y * _LookRateSpeed * Time.deltaTime, _mouseDistance.x * _LookRateSpeed * Time.deltaTime, _rollInput * _rollSpeed * Time.deltaTime, Space.Self);

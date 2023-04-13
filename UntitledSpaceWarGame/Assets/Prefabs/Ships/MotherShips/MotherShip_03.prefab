@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 539472239}
   - component: {fileID: 539472240}
   - component: {fileID: 1228900238401411640}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MotherShip_03
   m_TagString: Mothership
   m_Icon: {fileID: 0}
