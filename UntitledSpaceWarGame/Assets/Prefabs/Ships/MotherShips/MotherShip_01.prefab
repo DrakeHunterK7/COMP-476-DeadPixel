@@ -3979,4 +3979,5 @@ MonoBehaviour:
   _hpFill: {fileID: 643909160}
   _shipExplosion: {fileID: 2994049833057877991, guid: bdafa105848a31d4b8915a64b96d5c98, type: 3}
   _mothershipExplosion: {fileID: 3123075737211501182, guid: a3f72d5f213bb7d458dfc2c4369e7acf, type: 3}
+  explosionClip: {fileID: 8300000, guid: c5847b222511db54a8335d2bcadaa84d, type: 3}
   _teamShips: []

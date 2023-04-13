@@ -20,6 +20,8 @@ public class ShipController : MonoBehaviour
         
     public GameObject _shootpoint;
 
+    public AudioSource gunSound;
+
     //Weapon Prefabs
     [Header ("Weapon Prefabs")]
     public GameObject _bulletPrefab;
@@ -224,6 +226,7 @@ public class ShipController : MonoBehaviour
             b.GetComponent<Projectile>().ownerShip = gameObject;
             b.GetComponent<Gun>()._attackStrength = _shipData.GetAttackForce();
             b.GetComponent<Gun>().ownerShip = this.gameObject;
+            gunSound.Play();
         }
     }
 

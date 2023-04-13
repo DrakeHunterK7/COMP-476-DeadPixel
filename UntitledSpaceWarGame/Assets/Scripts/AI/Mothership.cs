@@ -21,6 +21,8 @@ public class Mothership : MonoBehaviour
     [SerializeField] private GameObject _shipExplosion;
     [SerializeField] private GameObject _mothershipExplosion;
 
+    public AudioClip explosionClip;
+
     //Team ship
     [HideInInspector] public List<GameObject> _teamShips;
 
@@ -69,6 +71,7 @@ public class Mothership : MonoBehaviour
         else
         {
             //MOTHERSHIP DESTROYED
+            AudioSource.PlayClipAtPoint(explosionClip, transform.position);
             _currentHealth = 0;
             DestroyTeam();
         }

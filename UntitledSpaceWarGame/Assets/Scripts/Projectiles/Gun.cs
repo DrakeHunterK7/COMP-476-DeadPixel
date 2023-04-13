@@ -15,6 +15,8 @@ public class Gun : Projectile
 
     private Collider collider;
 
+    public AudioClip explosionSound;
+
     [SerializeField] private GameObject _explosion;
 
     // Start is called before the first frame update
@@ -81,6 +83,7 @@ public class Gun : Projectile
                         {
                             if (entity.gameObject.GetComponent<ShipAIBT>().GetShipData().TakeDamage(_attackStrength))
                             {
+                                AudioSource.PlayClipAtPoint(explosionSound, transform.position);
                                 Instantiate(_explosion, entity.gameObject.transform.position, entity.gameObject.transform.rotation);
                                 entity.gameObject.GetComponent<ShipAIBT>().mothership._teamShips
                                     .Remove(entity.gameObject);

@@ -115,4 +115,5 @@ MonoBehaviour:
   ownerShip: {fileID: 0}
   _attackStrength: 0
   destroyPrefab: {fileID: 3302442364004722511, guid: 10434d6bf3af98b46a88ab696f543ee3, type: 3}
+  explosionSound: {fileID: 8300000, guid: c3caa08b12b4c3245887bfd5f1c927b4, type: 3}
   _explosion: {fileID: 2994049833057877991, guid: bdafa105848a31d4b8915a64b96d5c98, type: 3}

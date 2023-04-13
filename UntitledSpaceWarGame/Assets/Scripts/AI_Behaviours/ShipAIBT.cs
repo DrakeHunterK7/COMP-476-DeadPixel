@@ -94,15 +94,4 @@ public class ShipAIBT : Tree
     {
         shipInformation = new ShipInformation(newShipInfo);
     }
-
-    private void OnDestroy()
-    {
-        // GameObject target = (GameObject) GetRootData("Target");
-        //
-        // if (target != null)
-        // {
-        //     target.GetComponent<ShipAIBT>().ClearRootData("Target");
-        //     ClearRootData("Target");
-        // }
-    }
 }
